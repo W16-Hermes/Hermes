@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 
 public class setting extends AppCompatActivity {
 
+    public static final String KEY_MAX_DISTANCE = "maxDistance";
+    public static final String KEY_DISPLAY_NAME = "displayName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

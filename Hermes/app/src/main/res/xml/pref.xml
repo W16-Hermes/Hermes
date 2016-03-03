@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:title="Reply with Auto Message?"
-        android:key="switch"
+
+    <EditTextPreference
+        android:title="Max Distance (mi)"
+        android:key="maxDistance"
+        android:summary="Farthest request you want to see"
+        android:defaultValue="10"
         />
     <EditTextPreference
-        android:title="Message"
-        android:key="reply"
-        android:summary="Please enter your auto-reply message"
+        android:title="Display Name"
+        android:key="displayName"
+        android:summary="Change your public name"
+        android:defaultValue="Hermes_user"
     />
 </PreferenceScreen>
