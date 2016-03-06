@@ -2,45 +2,37 @@ package com.example.iguest.hermes;
 
 import android.location.Location;
 
+import com.parse.ParseGeoPoint;
+
 import java.util.Date;
 
 /**
  * Created by iguest on 3/6/16.
  */
 public class Request {
-    private User user;
-    private Location deliveryLocation;
-    private Location restaurantLocation;
+    private String userId;
+    private ParseGeoPoint deliveryLocation;
+    private String restaurantId;
+
+    private String restaurantName;
     private String description;
     private String status;
     private Date createTime;
 
-
-    public Request(User user, Location deliveryLocation, Location restaurantLocation, String description) {
-        this.user = user;
+    public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantId, String description) {
+        this.userId = userId;
         this.deliveryLocation = deliveryLocation;
-        this.restaurantLocation = restaurantLocation;
+        this.restaurantId = restaurantId;
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Date getCreateTime() {
         return createTime;
     }
 
-    public Location getDeliveryLocation() {
+    public ParseGeoPoint getDeliveryLocation() {
         return deliveryLocation;
-    }
-
-    public Location getRestaurantLocation() {
-        return restaurantLocation;
     }
 
     public String getDescription() {
@@ -55,7 +47,7 @@ public class Request {
         this.createTime = createTime;
     }
 
-    public void setDeliveryLocation(Location deliveryLocation) {
+    public void setDeliveryLocation(ParseGeoPoint deliveryLocation) {
         this.deliveryLocation = deliveryLocation;
     }
 
@@ -63,11 +55,17 @@ public class Request {
         this.description = description;
     }
 
-    public void setRestaurantLocation(Location restaurantLocation) {
-        this.restaurantLocation = restaurantLocation;
-    }
 
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setRestaurantName(String name) {
+        this.restaurantName = name;
+    }
+
+    public String toString() {
+        return this.restaurantName + " " + this.description + " " + this.userId;
+    }
+
 }

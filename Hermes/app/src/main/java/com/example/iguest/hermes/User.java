@@ -8,6 +8,11 @@ public class User {
     private String phoneNumber;
     private int score;
 
+    public User(String name, String number, int score) {
+        this.screenName = name;
+        this.phoneNumber = number;
+        this.score = score;
+    }
 
     public void setScreenName(String screenName) {
         this.screenName = screenName;
@@ -31,5 +36,9 @@ public class User {
 
     public int getScore() {
         return score;
+    }
+
+    public String toString() {
+        return screenName + "'s number is " + phoneNumber + " " + score;
     }
 }

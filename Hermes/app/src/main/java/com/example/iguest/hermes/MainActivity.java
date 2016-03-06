@@ -1,5 +1,7 @@
 package com.example.iguest.hermes;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,15 +11,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Button;
 
 
 import com.parse.Parse;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "REQUEST_FEED";
+    private FragmentManager manager;
+    private FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +28,62 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Parse.initialize(this);
 
+
+
 //        ParseQuery<ParseObject> query = ParseQuery.getQuery("bubble_tea");
+
+        manager = getFragmentManager();
+        ft = manager.beginTransaction();
+        ft.add(R.id.container, new request_fragment());
+        ft.commit();
+
 
         FloatingActionButton compose = (FloatingActionButton) findViewById(R.id.fab);
         compose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v(TAG, "Add request clicked");
+
+                /*Intent intent = new Intent(reading.this, lass);
+                startActivity(intent);*/
+            }
+        });
+
+        Button feed = (Button) findViewById(R.id.Feed);
+        feed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "View Feed clicked");
+                /*Intent intent = new Intent(reading.this, lass);
+                startActivity(intent);*/
+            }
+        });
+
+        Button request = (Button) findViewById(R.id.Request);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "View Requests clicked");
+
+                /*Intent intent = new Intent(reading.this, lass);
+                startActivity(intent);*/
+            }
+        });
+        Button deliver = (Button) findViewById(R.id.Delivery);
+        deliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "View Deliveries clicked");
+
+                /*Intent intent = new Intent(reading.this, lass);
+                startActivity(intent);*/
+            }
+        });
+        Button leader = (Button) findViewById(R.id.Leader);
+        leader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "View Leaderboard clicked");
 
                 /*Intent intent = new Intent(reading.this, lass);
                 startActivity(intent);*/
