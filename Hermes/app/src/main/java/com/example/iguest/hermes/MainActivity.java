@@ -7,17 +7,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.firebase.client.Firebase;
+import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class MainActivity extends AppCompatActivity {
-    Firebase myFirebaseRef = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com/");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Firebase.setAndroidContext(this);
+        Parse.initialize(this);
 
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("bubble_tea");
     }
 
     @Override

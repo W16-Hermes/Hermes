@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".setting"></activity>
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="sjr0FoGQdlM8zsUv7Bz58ybOAQQyJSvxoJUmnGDr" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="kw3GLeFJyZGrcvPPHsIZZDOv6cyIjB7yaoQqXlRZ" />
     </application>
 
 </manifest>
