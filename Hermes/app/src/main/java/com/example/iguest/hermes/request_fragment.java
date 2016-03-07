@@ -71,7 +71,7 @@ public class request_fragment extends Fragment {
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
                         final Request a = new Request(user,deliveryLocation, restaurantID, descript);
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Restaurant");
+                        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("Restaurant");
                         query.orderByDescending("createdAt").setLimit(200);
                         query.findInBackground(new FindCallback<ParseObject>() {
 
@@ -86,10 +86,10 @@ public class request_fragment extends Fragment {
                                             break;
                                         }
                                     }
-                                    adapter.add(a);
                                 }
                             }
-                        });
+                        });*/
+                        adapter.add(a);
                     }
                 }
             }
