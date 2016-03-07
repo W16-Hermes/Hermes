@@ -1,5 +1,6 @@
 package com.example.iguest.hermes;
 
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -16,7 +17,7 @@ import android.widget.Button;
 
 import com.parse.Parse;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements addRequest.DialogListener{
 
     private static final String TAG = "REQUEST_FEED";
     private FragmentManager manager;
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(TAG, "Add request clicked");
-
+                //ft.add(R.id.container, new addRequest());
+                //ft.commit();
+                new addRequest().show(getFragmentManager(), "dialog");
                 /*Intent intent = new Intent(reading.this, lass);
                 startActivity(intent);*/
             }
@@ -110,5 +113,15 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }
