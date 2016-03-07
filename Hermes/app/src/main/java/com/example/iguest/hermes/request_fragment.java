@@ -35,13 +35,13 @@ public class request_fragment extends Fragment {
 
     public interface RequestListener{
         public void onSelected(Request r);
-        public void moveSummary();
     }
 
 
     public request_fragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,54 +55,21 @@ public class request_fragment extends Fragment {
         AdapterView listView = (AdapterView) rootView.findViewById(R.id.requestList);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Request entry = (Request) parent.getItemAtPosition(position);
+                Log.i("Request_Fragment", "selected: " + entry);
+
+                //swap the fragments to show the detail
+                ((RequestListener) getActivity()).onSelected(entry);
+            }
+        });
+
         if (test) {
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-            query.include("userId");
-            query.include("restaurantId");
-            query.orderByDescending("createdAt").setLimit(200);
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        for (ParseObject object : objects) {
-                            String user = object.getParseObject("userId").getString("screenName");
-                            String restaurant = object.getParseObject("restaurantId").getString("Name");
-                            ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                            String descript = object.getString("description");
-                            Request request = new Request(user, deliveryLocation, restaurant, descript);
-
-                            adapter.add(request);
-                        }
-                    }
-                }
-            });
+            GetAllRequests();
         } else {
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-            query.include("userId");
-            query.include("restaurantId");
-            SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            final String display = options.getString("displayName", null);
-            Log.v("a", display);
-            //query.whereEqualTo("screenName", display);
-            query.orderByDescending("createdAt").setLimit(200);
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        for (ParseObject object : objects) {
-                            String user = object.getParseObject("userId").getString("screenName");
-                            String restaurant = object.getParseObject("restaurantId").getString("Name");
-                            ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                            String descript = object.getString("description");
-                            Request request = new Request(user, deliveryLocation, restaurant, descript);
-                            if (user.equals(display)) {
-                                adapter.add(request);
-                            }
-
-                        }
-                    }
-                }
-            });
+            GetMyRequests();
         }
 
 
@@ -110,4 +77,55 @@ public class request_fragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_request_fragment, container, false);
     }
 
+    private void GetAllRequests() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+        query.include("userId");
+        query.include("restaurantId");
+        query.orderByDescending("createdAt").setLimit(200);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject object : objects) {
+                        String user = object.getParseObject("userId").getString("screenName");
+                        String restaurant = object.getParseObject("restaurantId").getString("Name");
+                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
+                        String descript = object.getString("description");
+                        Request request = new Request(user, deliveryLocation, restaurant, descript);
+
+                        adapter.add(request);
+                    }
+                }
+            }
+        });
+    }
+
+    private void GetMyRequests() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+        query.include("userId");
+        query.include("restaurantId");
+        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final String display = options.getString("displayName", null);
+        Log.v("a", display);
+        //query.whereEqualTo("screenName", display);
+        query.orderByDescending("createdAt").setLimit(200);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject object : objects) {
+                        String user = object.getParseObject("userId").getString("screenName");
+                        String restaurant = object.getParseObject("restaurantId").getString("Name");
+                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
+                        String descript = object.getString("description");
+                        Request request = new Request(user, deliveryLocation, restaurant, descript);
+                        if (user.equals(display)) {
+                            adapter.add(request);
+                        }
+
+                    }
+                }
+            }
+        });
+    }
 }

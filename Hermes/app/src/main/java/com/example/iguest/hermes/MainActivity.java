@@ -1,6 +1,7 @@
 package com.example.iguest.hermes;
 
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -17,18 +18,18 @@ import android.widget.Button;
 
 import com.parse.Parse;
 
-public class MainActivity extends AppCompatActivity implements addRequest.DialogListener{
+public class MainActivity extends AppCompatActivity implements addRequest.DialogListener, request_fragment.RequestListener {
 
     private static final String TAG = "REQUEST_FEED";
     private FragmentManager manager;
     private FragmentTransaction ft;
+    private request_detail detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Parse.initialize(this);
-
 
 
 //        ParseQuery<ParseObject> query = ParseQuery.getQuery("bubble_tea");
@@ -105,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements addRequest.Dialog
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Listeners for when the setting menu is clicked
-        switch(item.getItemId()){
-            case R.id.menu_item1 :
+        switch (item.getItemId()) {
+            case R.id.menu_item1:
                 Intent intent = new Intent(MainActivity.this, setting.class);
                 startActivity(intent);
                 return true;
@@ -123,5 +124,24 @@ public class MainActivity extends AppCompatActivity implements addRequest.Dialog
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    @Override
+    public void onSelected(Request r) {
+        detail = new request_detail();
+
+        //Fills out each individual list item with more detailed data
+        Bundle bundle = new Bundle();
+        detail.setArguments(bundle);
+
+
+        //Changes the fragments so the list_view is on the left and the details is on the right
+        manager = getFragmentManager();
+        ft = manager.beginTransaction();
+        Fragment a = getFragmentManager().findFragmentById(R.id.container);
+        ft.replace(R.id.container, detail);
+        ft.addToBackStack(null);
+        ft.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
