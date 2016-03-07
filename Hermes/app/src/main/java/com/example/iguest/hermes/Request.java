@@ -19,10 +19,10 @@ public class Request {
     private String status;
     private Date createTime;
 
-    public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantId, String description) {
+    public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantName, String description) {
         this.userId = userId;
         this.deliveryLocation = deliveryLocation;
-        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
         this.description = description;
     }
 
@@ -65,7 +65,7 @@ public class Request {
     }
 
     public String toString() {
-        return this.restaurantName + " " + this.description + " " + this.userId;
+        return this.userId + " " + this.description + " from " + this.restaurantName;
     }
 
 }

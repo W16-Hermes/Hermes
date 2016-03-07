@@ -54,42 +54,21 @@ public class request_fragment extends Fragment {
         listView.setAdapter(adapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+        query.include("userId");
+        query.include("restaurantId");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject object : objects) {
-                        Log.v("a", object.toString());
-                        /*String screenName = object.getString("screenName");
-                        String phone = object.getString("phoneNumber");
-                        int score = object.getInt("score");
-                        User a = new User(screenName, phone, score);*/
-
-                        String user = object.getString("userId");
-                        final String restaurantID = object.getString("restaurantId");
+                        String user = object.getParseObject("userId").getString("screenName");
+                        String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
-                        final Request a = new Request(user,deliveryLocation, restaurantID, descript);
-                        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("Restaurant");
-                        query.orderByDescending("createdAt").setLimit(200);
-                        query.findInBackground(new FindCallback<ParseObject>() {
+                        Request request = new Request(user, deliveryLocation, restaurant, descript);
 
-                            @Override
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if (e == null) {
-                                    for (ParseObject object : objects) {
-                                        Log.v("a", object.getString("objectId"));
-                                        if (object.getString("objectId") == restaurantID) {
-                                            //Log.v("a", object.getString("Name"));
-                                            a.setRestaurantName(object.getString("Name"));
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        });*/
-                        adapter.add(a);
+                        adapter.add(request);
                     }
                 }
             }
