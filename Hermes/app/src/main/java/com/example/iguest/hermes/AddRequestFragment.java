@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,16 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.spec.DESedeKeySpec;
 
 
 /**
@@ -32,6 +34,7 @@ import java.util.List;
 public class AddRequestFragment extends DialogFragment implements AdapterView.OnItemSelectedListener{
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
+    private String selectedRestaurant = "";
 
 
     public AddRequestFragment() {
@@ -41,12 +44,12 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+        selectedRestaurant = parent.getItemAtPosition(position).toString();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        String item = parent.getItemAtPosition(0).toString();
+        selectedRestaurant = parent.getItemAtPosition(0).toString();
     }
 
     public interface DialogListener {
@@ -118,21 +121,32 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 //Enters the data into Parse.com
-                                ParseObject newEntry = new ParseObject("Restaurant");
+                                ParseObject newEntry = new ParseObject("Request");
+//                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                                String name = options.getString("displayName", );
+                                newEntry.put("userId", "f1EUxtZQuZ");
+                                newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
+                                newEntry.put("status", "Pending");
+                                newEntry.put("restaurantId", "fyW48URAVy");
+
+                                String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
+
+                                newEntry.put("description", description);
+                                newEntry.saveInBackground();
 
                                 //Catches if the user doesn't input an integer for rating
-                                try {
-
-                                    newEntry.saveInBackground();
-                                    mListener.onDialogPositiveClick(AddRequestFragment.this);
-                                } catch (NumberFormatException e) {
-                                    Log.v(TAG, "error");
-                                    Context context = getActivity();
-                                    String text = "Entry Not Added";
-                                    int duration = Toast.LENGTH_SHORT;
-                                    Toast toast = Toast.makeText(context, text, duration);
-                                    toast.show();
-                                }
+//                                try {
+//
+//                                    newEntry.saveInBackground();
+//                                    mListener.onDialogPositiveClick(AddRequestFragment.this);
+//                                } catch (NumberFormatException e) {
+//                                    Log.v(TAG, "error");
+//                                    Context context = getActivity();
+//                                    String text = "Entry Not Added";
+//                                    int duration = Toast.LENGTH_SHORT;
+//                                    Toast toast = Toast.makeText(context, text, duration);
+//                                    toast.show();
+//                                }
                             }
                         })
                                 //Cancels the action
