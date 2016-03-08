@@ -3,7 +3,7 @@ package com.example.iguest.hermes;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +51,7 @@ public class ViewPagerContainerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.v(TAG, "Add request clicked");
-                //new AddRequestFragment().show(getFragmentManager(), "dialog");
+                new AddRequestFragment().show(getFragmentManager(), "dialog");
             }
         });
 
@@ -83,7 +83,7 @@ public class ViewPagerContainerFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         adapter.addFragment(new RequestFeedFragment(), "Request Feed");
         adapter.addFragment(new MyRequestsFragment(), "My Requests");
         adapter.addFragment(new DeliveryFragment(), "Deliveries");

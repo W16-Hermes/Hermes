@@ -19,7 +19,7 @@ public class SettingActivity extends AppCompatActivity {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager
                 .beginTransaction();
-        SettingFragment setFragment = new SettingFragment();
+        settingFragment setFragment = new settingFragment();
         mFragmentTransaction.replace(android.R.id.content, setFragment);
         mFragmentTransaction.commit();
     }
