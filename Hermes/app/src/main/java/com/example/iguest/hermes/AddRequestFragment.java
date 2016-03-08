@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,8 +96,8 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject object: objects) {
-                        String a = object.getString("Name");
-                        categories.add(a);
+                        String name = object.getString("Name");
+                        categories.add(name);
                     }
                 }
             }
@@ -120,33 +122,18 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
+                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                final String userId = options.getString("userId", "");
+
                                 //Enters the data into Parse.com
                                 ParseObject newEntry = new ParseObject("Request");
-//                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//                                String name = options.getString("displayName", );
-                                newEntry.put("userId", "f1EUxtZQuZ");
+                                newEntry.put("userId", ParseObject.createWithoutData("User", userId));
                                 newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
                                 newEntry.put("status", "Pending");
-                                newEntry.put("restaurantId", "fyW48URAVy");
-
+                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", "fyW48URAVy"));
                                 String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
-
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();
-
-                                //Catches if the user doesn't input an integer for rating
-//                                try {
-//
-//                                    newEntry.saveInBackground();
-//                                    mListener.onDialogPositiveClick(AddRequestFragment.this);
-//                                } catch (NumberFormatException e) {
-//                                    Log.v(TAG, "error");
-//                                    Context context = getActivity();
-//                                    String text = "Entry Not Added";
-//                                    int duration = Toast.LENGTH_SHORT;
-//                                    Toast toast = Toast.makeText(context, text, duration);
-//                                    toast.show();
-//                                }
                             }
                         })
                                 //Cancels the action

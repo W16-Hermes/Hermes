@@ -14,4 +14,10 @@
         android:summary="Change your public name"
         android:defaultValue="Hermes_user"
     />
+
+    <EditTextPreference
+        android:title="User Id"
+        android:key="userId"
+        android:visibility="gone"
+        android:defaultValue="f1EUxtZQuZ"/>
 </PreferenceScreen>
