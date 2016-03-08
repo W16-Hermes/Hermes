@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
         Bundle bundle = new Bundle();
         bundle.putString("description", r.getDescription());
         bundle.putString("status", r.getStatus());
+        bundle.putDouble("Latitude", r.getDeliveryLocation().getLatitude());
+        bundle.putDouble("Longitude", r.getDeliveryLocation().getLongitude());
         bundle.putString("deliveryLocation", r.getDeliveryLocation().toString());
         bundle.putString("user", r.getUserId());
         bundle.putString("restaurant", r.getRestaurantName());
