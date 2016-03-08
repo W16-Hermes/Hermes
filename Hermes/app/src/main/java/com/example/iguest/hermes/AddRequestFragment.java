@@ -25,7 +25,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.crypto.spec.DESedeKeySpec;
 
@@ -37,6 +39,8 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
     private String selectedRestaurant = "";
+    private String[] restaurants = new String[11];
+    private Random random = new Random();
 
 
     public AddRequestFragment() {
@@ -95,7 +99,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    for (ParseObject object: objects) {
+                    for (ParseObject object : objects) {
                         String name = object.getString("Name");
                         categories.add(name);
                     }
@@ -104,6 +108,19 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
         });
 
         categories.add("Please Select Restaurant");
+
+        restaurants[0] = "GR472AUMZ1";
+        restaurants[1] = "8889Evoy5m";
+        restaurants[2] = "JQAK4hwojI";
+        restaurants[3] = "8Im3Zbmd2P";
+        restaurants[4] = "C9oBlivLgp";
+        restaurants[5] = "b8QdEL8uMK";
+        restaurants[6] = "wz8o2l5Iec";
+        restaurants[7] = "fyW48URAVy";
+        restaurants[8] = "jx8E4mMCE4";
+        restaurants[9] = "hh1Qz3nQmr";
+        restaurants[10] = "C6WJm1AsKV";
+
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
@@ -130,7 +147,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                                 newEntry.put("userId", ParseObject.createWithoutData("User", userId));
                                 newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
                                 newEntry.put("status", "Pending");
-                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", "fyW48URAVy"));
+                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
                                 String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();
