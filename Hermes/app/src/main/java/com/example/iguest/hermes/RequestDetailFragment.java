@@ -1,6 +1,8 @@
 package com.example.iguest.hermes;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -46,6 +48,11 @@ public class RequestDetailFragment extends Fragment {
 
             TextView deliveryLocationTextView = (TextView) rootView.findViewById(R.id.RequestDetailDeliveryLocation);
             deliveryLocationTextView.setText(bundle.getString("deliveryLocation"));
+
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.map_container, new Location());
+            ft.commit();
         }
 
         return rootView;

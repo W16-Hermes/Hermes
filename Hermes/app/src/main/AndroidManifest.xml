@@ -23,6 +23,9 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="kw3GLeFJyZGrcvPPHsIZZDOv6cyIjB7yaoQqXlRZ" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD5bpS5EPbAsNz_XX3XMTHo0h-5HwGnSyA" />
     </application>
 
 </manifest>
