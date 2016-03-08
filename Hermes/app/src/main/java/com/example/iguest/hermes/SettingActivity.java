@@ -9,6 +9,7 @@ public class SettingActivity extends AppCompatActivity {
 
     public static final String KEY_MAX_DISTANCE = "maxDistance";
     public static final String KEY_DISPLAY_NAME = "displayName";
+    public static final String KEY_USER_ID = "userId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

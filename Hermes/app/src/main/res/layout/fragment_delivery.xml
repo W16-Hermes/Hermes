@@ -5,6 +5,7 @@
     tools:context="info.androidhive.materialtabs.fragments.OneFragment">
 
     <TextView
+        android:id="@+id/deliveryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delivery Feed"

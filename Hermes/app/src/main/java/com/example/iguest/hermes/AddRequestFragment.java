@@ -5,25 +5,31 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+
+import javax.crypto.spec.DESedeKeySpec;
 
 
 /**
@@ -32,6 +38,9 @@ import java.util.List;
 public class AddRequestFragment extends DialogFragment implements AdapterView.OnItemSelectedListener{
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
+    private String selectedRestaurant = "";
+    private String[] restaurants = new String[11];
+    private Random random = new Random();
 
 
     public AddRequestFragment() {
@@ -41,12 +50,12 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+        selectedRestaurant = parent.getItemAtPosition(position).toString();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        String item = parent.getItemAtPosition(0).toString();
+        selectedRestaurant = parent.getItemAtPosition(0).toString();
     }
 
     public interface DialogListener {
@@ -90,15 +99,28 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    for (ParseObject object: objects) {
-                        String a = object.getString("Name");
-                        categories.add(a);
+                    for (ParseObject object : objects) {
+                        String name = object.getString("Name");
+                        categories.add(name);
                     }
                 }
             }
         });
 
         categories.add("Please Select Restaurant");
+
+        restaurants[0] = "GR472AUMZ1";
+        restaurants[1] = "8889Evoy5m";
+        restaurants[2] = "JQAK4hwojI";
+        restaurants[3] = "8Im3Zbmd2P";
+        restaurants[4] = "C9oBlivLgp";
+        restaurants[5] = "b8QdEL8uMK";
+        restaurants[6] = "wz8o2l5Iec";
+        restaurants[7] = "fyW48URAVy";
+        restaurants[8] = "jx8E4mMCE4";
+        restaurants[9] = "hh1Qz3nQmr";
+        restaurants[10] = "C6WJm1AsKV";
+
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
@@ -117,22 +139,18 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
+                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                final String userId = options.getString("userId", "");
+
                                 //Enters the data into Parse.com
-                                ParseObject newEntry = new ParseObject("Restaurant");
-
-                                //Catches if the user doesn't input an integer for rating
-                                try {
-
-                                    newEntry.saveInBackground();
-                                    mListener.onDialogPositiveClick(AddRequestFragment.this);
-                                } catch (NumberFormatException e) {
-                                    Log.v(TAG, "error");
-                                    Context context = getActivity();
-                                    String text = "Entry Not Added";
-                                    int duration = Toast.LENGTH_SHORT;
-                                    Toast toast = Toast.makeText(context, text, duration);
-                                    toast.show();
-                                }
+                                ParseObject newEntry = new ParseObject("Request");
+                                newEntry.put("userId", ParseObject.createWithoutData("User", userId));
+                                newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
+                                newEntry.put("status", "Pending");
+                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
+                                String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
+                                newEntry.put("description", description);
+                                newEntry.saveInBackground();
                             }
                         })
                                 //Cancels the action
