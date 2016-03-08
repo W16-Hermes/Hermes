@@ -1,56 +1,53 @@
 package com.example.iguest.hermes;
 
-
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class request_fragment extends Fragment {
+public class RequestFeedFragment extends Fragment {
     private ArrayAdapter adapter;
     private RequestListener callback;
-    private boolean test = false;
+    private boolean test = true;
 
     public interface RequestListener{
-        public void onSelected(Request r);
+        void onSelected(Request r);
     }
 
-
-    public request_fragment() {
+    public RequestFeedFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        final View rootView = inflater.inflate(R.layout.fragment_request_feed, container, false);
 
-        final View rootView = inflater.inflate(R.layout.fragment_request_fragment, container, false);
-
-        ArrayList<User>  list = new ArrayList<>();
+        ArrayList<User> list = new ArrayList<>();
         adapter = new ArrayAdapter<User>(getActivity(), R.layout.list_item, list);
         AdapterView listView = (AdapterView) rootView.findViewById(R.id.requestList);
         listView.setAdapter(adapter);
@@ -72,9 +69,7 @@ public class request_fragment extends Fragment {
             GetMyRequests();
         }
 
-
         return rootView;
-        //return inflater.inflate(R.layout.fragment_request_fragment, container, false);
     }
 
     private void GetAllRequests() {
@@ -105,7 +100,7 @@ public class request_fragment extends Fragment {
         query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", null);
+        final String display = options.getString("displayName", "");
         Log.v("a", display);
         //query.whereEqualTo("screenName", display);
         query.orderByDescending("createdAt").setLimit(200);

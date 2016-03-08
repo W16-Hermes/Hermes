@@ -7,6 +7,7 @@
         android:summary="Farthest request you want to see"
         android:defaultValue="10"
         />
+
     <EditTextPreference
         android:title="Display Name"
         android:key="displayName"

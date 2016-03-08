@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".setting"></activity>
+        <activity android:name=".SettingActivity"></activity>
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="sjr0FoGQdlM8zsUv7Bz58ybOAQQyJSvxoJUmnGDr" />

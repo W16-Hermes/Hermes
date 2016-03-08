@@ -5,7 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class setting extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
 
     public static final String KEY_MAX_DISTANCE = "maxDistance";
     public static final String KEY_DISPLAY_NAME = "displayName";
@@ -19,7 +19,7 @@ public class setting extends AppCompatActivity {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager
                 .beginTransaction();
-        settingFragment setFragment = new settingFragment();
+        SettingFragment setFragment = new SettingFragment();
         mFragmentTransaction.replace(android.R.id.content, setFragment);
         mFragmentTransaction.commit();
     }

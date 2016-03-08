@@ -12,21 +12,15 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +29,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class addRequest extends DialogFragment implements AdapterView.OnItemSelectedListener{
+public class AddRequestFragment extends DialogFragment implements AdapterView.OnItemSelectedListener{
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
 
 
-    public addRequest() {
+    public AddRequestFragment() {
         // Required empty public constructor
     }
 
@@ -130,7 +124,7 @@ public class addRequest extends DialogFragment implements AdapterView.OnItemSele
                                 try {
 
                                     newEntry.saveInBackground();
-                                    mListener.onDialogPositiveClick(addRequest.this);
+                                    mListener.onDialogPositiveClick(AddRequestFragment.this);
                                 } catch (NumberFormatException e) {
                                     Log.v(TAG, "error");
                                     Context context = getActivity();
@@ -144,7 +138,7 @@ public class addRequest extends DialogFragment implements AdapterView.OnItemSele
                                 //Cancels the action
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                mListener.onDialogNegativeClick(addRequest.this);
+                                mListener.onDialogNegativeClick(AddRequestFragment.this);
                             }
                         });
         return builder.create();
