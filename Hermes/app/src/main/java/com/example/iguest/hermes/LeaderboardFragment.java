@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -47,6 +48,10 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
+                    if (!objects.isEmpty()) {
+                        TextView label = (TextView) getActivity().findViewById(R.id.leaderboardLabel);
+                        label.setVisibility(View.GONE);
+                    }
                     for (ParseObject object : objects) {
                         User a = new User(object.getString("screenName"), object.getString("phoneNumber"), object.getInt("score"));
                         adapter.add(a);
