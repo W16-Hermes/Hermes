@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,7 +27,6 @@ import java.util.List;
 public class RequestFeedFragment extends Fragment {
     private ArrayAdapter adapter;
     private RequestListener callback;
-    private boolean test = true;
 
     public interface RequestListener{
         void onSelected(Request r);
@@ -63,11 +63,7 @@ public class RequestFeedFragment extends Fragment {
             }
         });
 
-        if (test) {
-            GetAllRequests();
-        } else {
-            GetMyRequests();
-        }
+        GetAllRequests();
 
         return rootView;
     }
@@ -81,6 +77,10 @@ public class RequestFeedFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
+                    if (!objects.isEmpty()) {
+                        TextView label = (TextView) getActivity().findViewById(R.id.allRequestLabel);
+                        label.setVisibility(View.GONE);
+                    }
                     for (ParseObject object : objects) {
                         String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
@@ -95,32 +95,4 @@ public class RequestFeedFragment extends Fragment {
         });
     }
 
-    private void GetMyRequests() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-        query.include("userId");
-        query.include("restaurantId");
-        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", "");
-        Log.v("a", display);
-        //query.whereEqualTo("screenName", display);
-        query.orderByDescending("createdAt").setLimit(200);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    for (ParseObject object : objects) {
-                        String user = object.getParseObject("userId").getString("screenName");
-                        String restaurant = object.getParseObject("restaurantId").getString("Name");
-                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                        String descript = object.getString("description");
-                        Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        if (user.equals(display)) {
-                            adapter.add(request);
-                        }
-
-                    }
-                }
-            }
-        });
-    }
 }
