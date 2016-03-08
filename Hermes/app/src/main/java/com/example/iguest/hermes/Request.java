@@ -26,6 +26,25 @@ public class Request {
         this.description = description;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public Date getCreateTime() {
         return createTime;

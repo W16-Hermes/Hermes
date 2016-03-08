@@ -2,13 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".request_detail">
+    tools:context=".request_detail"
+    >
 
     <TextView
         android:id="@+id/RequestDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         />
 
     <TextView
@@ -16,15 +19,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         android:layout_below="@id/RequestDetailTitle"
         />
 
     <TextView
-        android:id="@+id/RequestDetailComment"
+        android:id="@+id/RequestDetailRestaurant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/RequestDetailUser"
-        android:text="Comment"
+        android:text="Restaurant"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@id/RequestDetailUser"
         />
 
+    <TextView
+        android:id="@+id/RequestDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/RequestDetailRestaurant"
+        android:text="Description"
+        />
+
+    <TextView
+        android:id="@+id/RequestDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/RequestDetailDescription"
+        android:text="Status"
+        />
+
+    <TextView
+        android:id="@+id/RequestDetailDeliveryLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/RequestDetailStatus"
+        android:text="Delivery Location"
+        />
 </RelativeLayout>

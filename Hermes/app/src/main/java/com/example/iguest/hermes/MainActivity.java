@@ -81,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
 
         //Fills out each individual list item with more detailed data
         Bundle bundle = new Bundle();
+        bundle.putString("description", r.getDescription());
+        bundle.putString("status", r.getStatus());
+        bundle.putString("deliveryLocation", r.getDeliveryLocation().toString());
+        bundle.putString("user", r.getUserId());
+        bundle.putString("restaurant", r.getRestaurantName());
+        bundle.putString("title", r.toString());
         detail.setArguments(bundle);
 
         manager = getFragmentManager();
