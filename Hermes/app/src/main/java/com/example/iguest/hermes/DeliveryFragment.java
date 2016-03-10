@@ -70,7 +70,7 @@ public class DeliveryFragment extends Fragment {
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", "");
         Log.v("a", display);
-        //query.whereEqualTo("screenName", display);
+        query.whereEqualTo("screenName", display);
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -83,7 +83,7 @@ public class DeliveryFragment extends Fragment {
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
                         Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        if (!user.equals(display) && count <= 5) {
+                        if (count <= 5) {
                             count++;
                             adapter.add(request);
                         }
