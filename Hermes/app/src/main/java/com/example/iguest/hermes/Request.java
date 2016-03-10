@@ -1,7 +1,5 @@
 package com.example.iguest.hermes;
 
-import android.location.Location;
-
 import com.parse.ParseGeoPoint;
 
 import java.util.Date;
@@ -19,12 +17,14 @@ public class Request {
     private String status;
     private Date createTime;
     private String requestID;
+    private String deliverName;
 
-    public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantName, String description) {
+    public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantName, String description, String delieverName) {
         this.userId = userId;
         this.deliveryLocation = deliveryLocation;
         this.restaurantName = restaurantName;
         this.description = description;
+        this.deliverName = delieverName;
     }
 
     public String getUserId() {
@@ -94,4 +94,11 @@ public class Request {
         this.requestID = ID;
     }
 
+    public String getDeliverName() {
+        return deliverName;
+    }
+
+    public void setDeliverName(String deliverName) {
+        this.deliverName = deliverName;
+    }
 }

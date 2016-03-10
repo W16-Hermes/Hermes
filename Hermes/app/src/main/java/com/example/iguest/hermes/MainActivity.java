@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements
         bundle.putString("user", r.getUserId());
         bundle.putString("restaurant", r.getRestaurantName());
         bundle.putString("title", r.toString());
+        bundle.putString("deliverer", r.getDeliverName());
         myDetail.setArguments(bundle);
 
         manager = getFragmentManager();

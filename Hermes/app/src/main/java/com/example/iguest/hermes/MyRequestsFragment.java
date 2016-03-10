@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -70,6 +69,7 @@ public class MyRequestsFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
         query.include("userId");
         query.include("restaurantId");
+        query.include("delivererId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", " ");
         final String id = options.getString("userId", " ");
@@ -83,16 +83,21 @@ public class MyRequestsFragment extends Fragment {
                 if (objects != null) {
                     Log.v(TAG, "Found requests for you");
                     for (ParseObject object : objects) {
+                        String delivererName = "No one yet";
+                        if (object.getParseObject("delivererId") != null) {
+                            delivererName = object.getString("delivererId");
+                        }
+                        Log.v(TAG, "Deliverer is: " + delivererName);
                         Log.v(TAG, "In query loop");
                         Log.v(TAG, object.get("userId").toString());
                         String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
-                        //Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        Request request = new Request(display, deliveryLocation, restaurant, descript);
+                        Request request = new Request(display, deliveryLocation, restaurant, descript, delivererName);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
+                        request.setDeliverName(delivererName);
                         if(user.equals(display)) {
                             adapter.add(request);
                         }

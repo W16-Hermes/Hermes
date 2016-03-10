@@ -90,7 +90,7 @@ public class RequestFeedFragment extends Fragment {
                             ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                             String descript = object.getString("description");
                             String status = object.getString("status");
-                            Request request = new Request(user, deliveryLocation, restaurant, descript);
+                            Request request = new Request(user, deliveryLocation, restaurant, descript, "");
                             request.setRequestID(object.getObjectId());
                             request.setStatus(object.getString("status"));
                             if (status.equals("Pending")) {

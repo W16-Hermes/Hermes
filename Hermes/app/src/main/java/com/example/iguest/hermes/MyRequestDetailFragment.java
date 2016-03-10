@@ -47,6 +47,7 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
     private TextView restaurantTextView;
     private TextView descriptionTextView;
     private TextView statusTextView;
+    private TextView delivererTextView;
 
     public MyRequestDetailFragment() {
         // Required empty public constructor
@@ -112,6 +113,7 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
         restaurantTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailRestaurant);
         descriptionTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailDescription);
         statusTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailStatus);
+        delivererTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailDeliverer);
     }
 
     private void SetTextFields(Bundle bundle) {
@@ -119,8 +121,7 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
         restaurantTextView.setText(bundle.getString("restaurant"));
         descriptionTextView.setText(bundle.getString("description"));
         statusTextView.setText(bundle.getString("status"));
-
-
+        delivererTextView.setText(bundle.getString("deliverer"));
     }
 
     @Override
