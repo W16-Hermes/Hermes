@@ -66,6 +66,34 @@ public class DeliveryFragment extends Fragment {
     private void GetMyDeliveries() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
         query.include("userId");
+        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final String display = options.getString("displayName", "");
+        final String id = options.getString("userId", "");
+        query.whereNotEqualTo("status", "Delivered");
+        query.whereEqualTo("delivererId", id);
+        query.orderByDescending("createdAt").setLimit(200);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects != null) {
+                    int count = 0;
+                    for (ParseObject object : objects) {
+                        //String user = object.getParseObject("userId").getString("screenName");
+                        String restaurant = object.getParseObject("restaurantId").getString("Name");
+                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
+                        String descript = object.getString("description");
+                        //Request request = new Request(user, deliveryLocation, restaurant, descript);
+                        Request request = new Request(display, deliveryLocation, restaurant, descript);
+                        if (count <= 10) {
+                            count++;
+                            adapter.add(request);
+                        }
+                    }
+                }
+            }
+        });
+        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+        query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", "");
@@ -91,7 +119,7 @@ public class DeliveryFragment extends Fragment {
                     }
                 }
             }
-        });
+        });*/
     }
 
 }

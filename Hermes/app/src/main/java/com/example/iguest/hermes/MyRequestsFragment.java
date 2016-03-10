@@ -79,11 +79,12 @@ public class MyRequestsFragment extends Fragment {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject object : objects) {
-                        String user = object.getParseObject("userId").getString("screenName");
+                        //String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
-                        Request request = new Request(user, deliveryLocation, restaurant, descript);
+                        //Request request = new Request(user, deliveryLocation, restaurant, descript);
+                        Request request = new Request(display, deliveryLocation, restaurant, descript);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
                         adapter.add(request);
