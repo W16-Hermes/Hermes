@@ -46,8 +46,8 @@ public class DeliveryDetailFragment extends Fragment {
             restaurantTextView.setText(bundle.getString("restaurant"));
             TextView userTextView = (TextView) rootView.findViewById(R.id.DeliverDetailUser);
             userTextView.setText(bundle.getString("user"));
-            Button pickedUp = (Button) rootView.findViewById(R.id.picked);
 
+            Button pickedUp = (Button) rootView.findViewById(R.id.picked);
             pickedUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,7 +56,6 @@ public class DeliveryDetailFragment extends Fragment {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
-                                Log.v("a", "here");
                                 object.put("status", "Picked Up");
                                 object.saveInBackground();
                             }

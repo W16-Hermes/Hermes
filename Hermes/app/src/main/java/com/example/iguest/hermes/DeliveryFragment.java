@@ -80,13 +80,17 @@ public class DeliveryFragment extends Fragment {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null) {
                     for (ParseObject object : objects) {
-                        String user = object.getParseObject("userId").getString("screenName");
+                        //String user = object.getParseObject("userId").getString("screenName");
+                        String deliver = object.getParseObject("deliverId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
                         //Request request = new Request(user, deliveryLocation, restaurant, descript);
                         Request request = new Request(display, deliveryLocation, restaurant, descript);
-                        if (user.equals(display)) {
+                        request.setRequestID(object.getObjectId());
+                        request.setStatus(object.getString("status"));
+
+                        if (deliver.equals(display)) {
                             adapter.add(request);
                         }
                     }
