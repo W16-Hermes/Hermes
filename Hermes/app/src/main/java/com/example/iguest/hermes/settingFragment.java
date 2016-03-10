@@ -1,6 +1,7 @@
 package com.example.iguest.hermes;
 
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -19,6 +20,8 @@ import java.util.Random;
  * Created by bruceng on 2/3/16.
  */
 public class settingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
+    private static final String TAG = "Setting_Fragment";
+
     private Random random = new Random();
     private String userid = " ";
 
@@ -40,7 +43,7 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
             query.whereEqualTo("screenName", name);
             query.getFirstInBackground(new GetCallback<ParseObject>() {
                 @Override
-                public void done(ParseObject object, ParseException e) {
+                public void done(final ParseObject object, ParseException e) {
                     if (object == null) {
                         final ParseObject user = new ParseObject("User");
                         user.put("screenName", name);
@@ -50,26 +53,25 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
                             phone = phone + random.nextInt(9);
                         }
                         user.put("phoneNumber", phone);
-                        user.saveInBackground();
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                                SharedPreferences.Editor prefEditor = options.edit();
+                                prefEditor.putString("userId", user.getObjectId());
+                                prefEditor.commit();
+                            }
+                        });
                     } else {
                         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                         SharedPreferences.Editor prefEditor = options.edit();
                         prefEditor.putString("userId", object.getObjectId());
                         prefEditor.commit();
                     }
-                    ParseQuery query2 = ParseQuery.getQuery("User");
-                    query2.whereEqualTo("screenName", name);
-                    try {
-                        ParseObject finalUser = query2.getFirst();
-                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor prefEditor = options.edit();
-                        prefEditor.putString("userId", finalUser.getObjectId());
-                        prefEditor.commit();
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
                 }
             });
+            Log.v(TAG, "UserID is: " + sharedPreferences.getString("userId", "asdasd"));
+            Log.v(TAG, "ScreenName is: " + sharedPreferences.getString("displayName", "asdasd"));
         }
     }
 

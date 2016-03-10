@@ -91,6 +91,7 @@ public class RequestFeedFragment extends Fragment {
                             Log.v(TAG, "Object is null");
                             user = "Ci4axeN0LI";
                         }
+                        Log.v(TAG, "ScreenName is: " + user);
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
