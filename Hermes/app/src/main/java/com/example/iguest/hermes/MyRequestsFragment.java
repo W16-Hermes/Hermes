@@ -29,8 +29,10 @@ import java.util.List;
 public class MyRequestsFragment extends Fragment {
 
     private ArrayAdapter adapter;
-    private RequestFeedFragment.RequestListener callback;
-    private boolean test = false;
+
+    public interface MyRequestListener{
+        void onMyRequestSelected(Request r);
+    }
 
     public MyRequestsFragment() {
         // Required empty public constructor
@@ -54,7 +56,7 @@ public class MyRequestsFragment extends Fragment {
                 Log.i("My_Requests_Fragment", "selected: " + entry);
 
                 //swap the fragments to show the detail
-                ((RequestFeedFragment.RequestListener) getActivity()).onSelected(entry);
+                ((MyRequestsFragment.MyRequestListener) getActivity()).onMyRequestSelected(entry);
             }
         });
 
@@ -76,10 +78,6 @@ public class MyRequestsFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    if (!objects.isEmpty()) {
-                        TextView label = (TextView) getActivity().findViewById(R.id.myRequestLabel);
-                        label.setVisibility(View.GONE);
-                    }
                     for (ParseObject object : objects) {
                         String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");

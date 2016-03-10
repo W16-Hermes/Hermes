@@ -1,0 +1,67 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.iguest.hermes.MyRequestDetailFragment"
+    >
+
+    <TextView
+        android:id="@+id/MyRequestDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        />
+
+    <TextView
+        android:id="@+id/MyRequestDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@id/MyRequestDetailTitle"
+        />
+
+    <TextView
+        android:id="@+id/MyRequestDetailRestaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@id/MyRequestDetailUser"
+        />
+
+    <TextView
+        android:id="@+id/MyRequestDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/MyRequestDetailRestaurant"
+        android:text="Description"
+        />
+
+    <TextView
+        android:id="@+id/MyRequestDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/MyRequestDetailDescription"
+        android:text="Status"
+        />
+
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/MyRequestDetailsMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/MyRequestDetailStatus"
+        />
+
+</RelativeLayout>

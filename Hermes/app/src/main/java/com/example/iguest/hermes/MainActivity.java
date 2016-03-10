@@ -18,12 +18,16 @@ import android.view.View;
 
 import com.parse.Parse;
 
-public class MainActivity extends AppCompatActivity implements AddRequestFragment.DialogListener, RequestFeedFragment.RequestListener {
+public class MainActivity extends AppCompatActivity implements
+        AddRequestFragment.DialogListener,
+        RequestFeedFragment.RequestListener,
+        MyRequestsFragment.MyRequestListener {
 
     private static final String TAG = "MAIN_ACTIVITY";
     private FragmentManager manager;
     private FragmentTransaction ft;
     private RequestDetailFragment detail;
+    private MyRequestDetailFragment myDetail;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -117,25 +121,14 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
         bundle.putString("title", r.toString());
         detail.setArguments(bundle);
 
-        tabLayout.setVisibility(View.GONE);
-        viewPager.setVisibility(View.GONE);
-
         manager = getFragmentManager();
 
         ft = manager.beginTransaction();
         ft.replace(R.id.container, detail)
             .addToBackStack(null)
             .commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                Log.v(TAG, "Back button pressed");
-            }
-        });
-
+        ConfigureToolbar();
     }
 
     public void onBackPressed() {
@@ -147,5 +140,45 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void ConfigureToolbar() {
+        tabLayout.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                Log.v(TAG, "Back button pressed");
+            }
+        });
+    }
+
+    @Override
+    public void onMyRequestSelected(Request r) {
+        myDetail = new MyRequestDetailFragment();
+
+        //Fills out each individual list item with more detailed data
+        Bundle bundle = new Bundle();
+        bundle.putString("description", r.getDescription());
+        bundle.putString("status", r.getStatus());
+        bundle.putDouble("Latitude", r.getDeliveryLocation().getLatitude());
+        bundle.putDouble("Longitude", r.getDeliveryLocation().getLongitude());
+        bundle.putString("deliveryLocation", r.getDeliveryLocation().toString());
+        bundle.putString("user", r.getUserId());
+        bundle.putString("restaurant", r.getRestaurantName());
+        bundle.putString("title", r.toString());
+        myDetail.setArguments(bundle);
+
+        manager = getFragmentManager();
+
+        ft = manager.beginTransaction();
+        ft.replace(R.id.container, myDetail)
+                .addToBackStack(null)
+                .commit();
+
+        ConfigureToolbar();
     }
 }

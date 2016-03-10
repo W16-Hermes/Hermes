@@ -30,33 +30,25 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RequestDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MyRequestDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+    private static final String TAG = "MY_REQUEST_DETAILS_FEED";
     MapFragment mMapView;
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
     private static final int LOC_REQUEST_CODE = 1;
-
-    public RequestDetailFragment() {
+    public MyRequestDetailFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_request_detail, container, false);
-
-        Button accept = (Button) rootView.findViewById(R.id.accept);
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
-            }
-        });
+        final View rootView = inflater.inflate(R.layout.fragment_my_request_detail, container, false);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -68,22 +60,22 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            TextView titleTextView = (TextView) rootView.findViewById(R.id.RequestDetailTitle);
+            TextView titleTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailTitle);
             titleTextView.setText(bundle.getString("title"));
 
-            TextView userTextView = (TextView) rootView.findViewById(R.id.RequestDetailUser);
+            TextView userTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailUser);
             userTextView.setText(bundle.getString("user"));
 
-            TextView restaurantTextView = (TextView) rootView.findViewById(R.id.RequestDetailRestaurant);
+            TextView restaurantTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailRestaurant);
             restaurantTextView.setText(bundle.getString("restaurant"));
 
-            TextView descriptionTextview = (TextView) rootView.findViewById(R.id.RequestDetailDescription);
-            descriptionTextview.setText(bundle.getString("description"));
+            TextView descriptionTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailDescription);
+            descriptionTextView.setText(bundle.getString("description"));
 
-            TextView statusTextView = (TextView) rootView.findViewById(R.id.RequestDetailStatus);
+            TextView statusTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailStatus);
             statusTextView.setText(bundle.getString("status"));
 
-            mMapView = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mMapView = (MapFragment) getChildFragmentManager().findFragmentById(R.id.MyRequestDetailsMap);
             mMapView.onCreate(savedInstanceState);
 
             mMapView.onResume();// needed to get the map to display immediately
