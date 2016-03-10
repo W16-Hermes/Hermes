@@ -11,18 +11,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:textSize="30dp"
+        android:layout_margin="16dp"
         />
 
     <TextView
-        android:id="@+id/DeliverDetailStatus"
+        android:id="@+id/DeliverDetailUserLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:layout_below="@+id/DeliverDetailTitle"
-        android:text="Status"
+        android:text="User"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="User"
+        android:layout_below="@+id/DeliverDetailTitle"
+        android:layout_alignStart="@+id/DeliverDetailRestaurant"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailRestaurantLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant"
+        android:layout_margin="16dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@id/DeliverDetailUserLabel"
         />
 
     <TextView
@@ -30,43 +53,91 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restaurant"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:layout_below="@id/DeliverDetailStatus"
+        android:textSize="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignTop="@+id/DeliverDetailRestaurantLabel"
+        android:layout_toEndOf="@+id/DeliverDetailRestaurantLabel"
         />
 
     <TextView
-        android:id="@+id/DeliverDetailUser"
+        android:id="@+id/DeliverDetailStatusLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:layout_below="@+id/DeliverDetailRestaurant"
-        android:text="User"
+        android:layout_margin="16dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/DeliverDetailDescription"
+        android:text="Status"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Status"
+        android:layout_alignTop="@+id/DeliverDetailStatusLabel"
+        android:layout_alignStart="@+id/DeliverDetailRestaurant" />
+
+    <TextView
+        android:id="@+id/DeliverDetailDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/DeliverDetailRestaurantLabel"
+        android:text="Description"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="16dp"
+        android:text="Description"
+        android:layout_below="@+id/DeliverDetailDescriptionLabel"
+        android:layout_alignStart="@+id/DeliverDetailDescriptionLabel" />
+
+    <TextView
+        android:id="@+id/UpdateStatusLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Status"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/DeliverDetailStatus"
         />
 
     <Button
+        android:id="@+id/picked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Picked Up"
-        android:id="@+id/picked"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/DeliverDetailStatus" />
+        android:layout_below="@+id/UpdateStatusLabel"
+        android:layout_alignStart="@+id/deliver" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delivered"
         android:id="@+id/deliver"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/picked" />
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/picked"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/cancel"
-        android:layout_alignBottom="@+id/deliver"
-        android:layout_toEndOf="@+id/deliver" />
+        android:layout_below="@+id/deliver"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
