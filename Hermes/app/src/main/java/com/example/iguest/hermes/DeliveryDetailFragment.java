@@ -79,6 +79,7 @@ public class DeliveryDetailFragment extends Fragment {
                                 object.put("status", "Delivered");
                                 int count = object.getParseObject("userId").getInt("score");
                                 object.getParseObject("userId").put("score", count + 1);
+                                Log.v("a", Integer.toString(count));
                                 object.saveInBackground();
                             }
                         }

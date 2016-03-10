@@ -96,17 +96,23 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                         Toast.makeText(getActivity(), "Change User Name", Toast.LENGTH_LONG).show();
                     } else {
                         ParseQuery query = new ParseQuery("Request");
+                        query.include("userId");
                         query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject object, ParseException e) {
                                 if (object != null) {
                                     object.put("delivererId", ParseObject.createWithoutData("User", id));
                                     object.put("status", "Request Accepted");
-                                    object.saveInBackground();
+                                    String user = object.getParseObject("userId").getString("screenName");
+                                    if (user.equals(display)) {
+                                        Toast.makeText(getActivity(), "You May Not Accept Your Own Request", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        object.saveInBackground();
+                                        Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         });
-                        Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
                     }
                 }
             });
