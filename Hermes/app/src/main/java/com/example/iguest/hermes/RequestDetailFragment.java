@@ -209,7 +209,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
     public void onLocationChanged(Location location) {
         googleMap.clear();
         MarkerOptions restaurant = new MarkerOptions().position(
-                new LatLng(rLatitude, rLatitude)).title(rName);
+                new LatLng(rLatitude, rLongitude)).title(rName);
         restaurant.icon(BitmapDescriptorFactory
                 .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         googleMap.addMarker(restaurant);
