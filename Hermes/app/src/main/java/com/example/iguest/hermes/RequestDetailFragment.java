@@ -54,6 +54,12 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
     private double rLongitude;
     private String rName;
 
+    private TextView titleTextView;
+    private TextView userTextView;
+    private TextView restaurantTextView;
+    private TextView descriptionTextView;
+    private Button accept;
+
     public RequestDetailFragment() {
         // Required empty public constructor
     }
@@ -77,20 +83,8 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
-            TextView titleTextView = (TextView) rootView.findViewById(R.id.RequestDetailTitle);
-            titleTextView.setText(bundle.getString("title"));
-
-            TextView userTextView = (TextView) rootView.findViewById(R.id.RequestDetailUser);
-            userTextView.setText(bundle.getString("user"));
-
-            TextView restaurantTextView = (TextView) rootView.findViewById(R.id.RequestDetailRestaurant);
-            restaurantTextView.setText(bundle.getString("restaurant"));
-
-            TextView descriptionTextview = (TextView) rootView.findViewById(R.id.RequestDetailDescription);
-            descriptionTextview.setText(bundle.getString("description"));
-
-            TextView statusTextView = (TextView) rootView.findViewById(R.id.RequestDetailStatus);
-            statusTextView.setText(bundle.getString("status"));
+            InitializeFields(rootView);
+            SetTextFields(bundle);
 
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,6 +147,21 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
         }
         return rootView;
+    }
+
+    private void InitializeFields(View rootView) {
+        titleTextView = (TextView) rootView.findViewById(R.id.RequestDetailTitle);
+        userTextView = (TextView) rootView.findViewById(R.id.RequestDetailUser);
+        restaurantTextView = (TextView) rootView.findViewById(R.id.RequestDetailRestaurant);
+        descriptionTextView = (TextView) rootView.findViewById(R.id.RequestDetailDescription);
+        accept = (Button) rootView.findViewById(R.id.accept);
+    }
+
+    private void SetTextFields(Bundle bundle) {
+        titleTextView.setText(bundle.getString("title"));
+        userTextView.setText(bundle.getString("user"));
+        restaurantTextView.setText("Restaurant: " + bundle.getString("restaurant"));
+        descriptionTextView.setText("Description: " + bundle.getString("description"));
     }
 
     @Override
