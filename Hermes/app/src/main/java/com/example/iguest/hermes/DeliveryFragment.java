@@ -30,8 +30,8 @@ public class DeliveryFragment extends Fragment {
     private ArrayAdapter adapter;
     private RequestFeedFragment.RequestListener callback;
 
-    public DeliveryFragment() {
-        // Required empty public constructor
+    public interface DeliverListener{
+        void onDeliverSelected(Request r);
     }
 
 
@@ -53,7 +53,7 @@ public class DeliveryFragment extends Fragment {
                 Log.i("Request_Fragment", "selected: " + entry);
 
                 //swap the fragments to show the detail
-                ((RequestFeedFragment.RequestListener) getActivity()).onSelected(entry);
+                ((DeliverListener) getActivity()).onDeliverSelected(entry);
             }
         });
 

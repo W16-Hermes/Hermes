@@ -170,7 +170,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                                 Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
                                 String restaurantId = spinner.getSelectedItem().toString();
                                 //newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
-                                newEntry.put("restaruantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
+                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
                                 String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();

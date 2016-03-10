@@ -25,7 +25,8 @@ import com.parse.ParseQuery;
 public class MainActivity extends AppCompatActivity implements
         AddRequestFragment.DialogListener,
         RequestFeedFragment.RequestListener,
-        MyRequestsFragment.MyRequestListener
+        MyRequestsFragment.MyRequestListener,
+        DeliveryFragment.DeliverListener
 {
 
     private static final String TAG = "MAIN_ACTIVITY";
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements
     private FragmentTransaction ft;
     private RequestDetailFragment detail;
     private MyRequestDetailFragment myDetail;
+    private DeliveryDetailFragment details;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -183,6 +185,27 @@ public class MainActivity extends AppCompatActivity implements
 
         ft = manager.beginTransaction();
         ft.replace(R.id.container, myDetail)
+                .addToBackStack(null)
+                .commit();
+
+        ConfigureToolbar();
+    }
+
+    @Override
+    public void onDeliverSelected(Request r) {
+        details = new DeliveryDetailFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", r.toString());
+        bundle.putString("user", r.getUserId());
+        bundle.putString("status", r.getStatus());
+
+        details.setArguments(bundle);
+
+        manager = getFragmentManager();
+
+        ft = manager.beginTransaction();
+        ft.replace(R.id.container, details)
                 .addToBackStack(null)
                 .commit();
 
