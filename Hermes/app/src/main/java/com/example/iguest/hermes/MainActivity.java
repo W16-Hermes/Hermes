@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ import com.parse.Parse;
 
 public class MainActivity extends AppCompatActivity implements AddRequestFragment.DialogListener, RequestFeedFragment.RequestListener {
 
-    private static final String TAG = "REQUEST_FEED";
+    private static final String TAG = "MAIN_ACTIVITY";
     private FragmentManager manager;
     private FragmentTransaction ft;
     private RequestDetailFragment detail;
@@ -41,12 +42,11 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
         tabLayout.addTab(tabLayout.newTab().setText("Request Feed"));
         tabLayout.addTab(tabLayout.newTab().setText("My Requests"));
         tabLayout.addTab(tabLayout.newTab().setText("My Deliveries"));
-        tabLayout.addTab(tabLayout.newTab().setText("Leaderboard"));
+        tabLayout.addTab(tabLayout.newTab().setText("Leader Board"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -66,12 +66,6 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
 
             }
         });
-
-        /*manager = getFragmentManager();
-        ft = manager.beginTransaction();
-        ft.replace(R.id.container, new ViewPagerContainerFragment());
-        ft.commit();
-        */
 
         Parse.initialize(this);
     }
@@ -133,6 +127,14 @@ public class MainActivity extends AppCompatActivity implements AddRequestFragmen
             .addToBackStack(null)
             .commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                Log.v(TAG, "Back button pressed");
+            }
+        });
 
     }
 

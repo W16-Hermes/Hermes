@@ -1,6 +1,7 @@
 package com.example.iguest.hermes;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -21,6 +21,7 @@ import java.util.List;
 
 
 public class RequestFeedFragment extends Fragment {
+    private static final String TAG = "REQUEST_FEED";
     private ArrayAdapter adapter;
 
     public interface RequestListener{
@@ -55,6 +56,15 @@ public class RequestFeedFragment extends Fragment {
 
                 //swap the fragments to show the detail
                 ((RequestListener) getActivity()).onSelected(entry);
+            }
+        });
+
+        final FloatingActionButton compose = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        compose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(TAG, "Add request clicked");
+                new AddRequestFragment().show(getActivity().getFragmentManager(), "dialog");
             }
         });
 
