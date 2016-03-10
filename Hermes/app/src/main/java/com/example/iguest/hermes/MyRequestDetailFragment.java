@@ -74,16 +74,7 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
 
             TextView statusTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailStatus);
             statusTextView.setText(bundle.getString("status"));
-
-            editButton = (Button) rootView.findViewById(R.id.editButton);
-            editButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v(TAG, "Edit button clicked");
-
-                }
-            });
-
+            
             mMapView = (MapFragment) getChildFragmentManager().findFragmentById(R.id.MyRequestDetailsMap);
             mMapView.onCreate(savedInstanceState);
 

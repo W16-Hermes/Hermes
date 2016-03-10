@@ -76,16 +76,8 @@
         android:textSize="15dp"
         android:text="Description"
         android:layout_below="@+id/MyRequestDetailDescriptionLabel"
-        android:layout_alignStart="@+id/MyRequestDetailDescriptionLabel" />
-
-    <Button
-        android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/MyRequestDetailDescription"
-        android:layout_margin="16dp"
+        android:layout_alignStart="@+id/MyRequestDetailDescriptionLabel"
+        android:layout_marginBottom="16dp"
         />
 
     <fragment
@@ -94,7 +86,7 @@
         android:id="@+id/MyRequestDetailsMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editButton"
+        android:layout_below="@+id/MyRequestDetailDescription"
         />
 
 </RelativeLayout>
