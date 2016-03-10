@@ -35,7 +35,7 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, String key) {
         // handle the preference change here
         if (key.equals("displayName")) {
-            final String name = sharedPreferences.getString("displayName", "");
+            final String name = sharedPreferences.getString("displayName", " ");
             ParseQuery query = ParseQuery.getQuery("User");
             query.whereEqualTo("screenName", name);
             query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -64,8 +64,8 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
                         SharedPreferences.Editor prefEditor = options.edit();
                         prefEditor.putString("userId", editSaved.getObjectId());
                         prefEditor.commit();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    } catch (ParseException c) {
+                        c.printStackTrace();
                     }
                 }
             });

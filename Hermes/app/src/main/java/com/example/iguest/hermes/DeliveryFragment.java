@@ -67,7 +67,7 @@ public class DeliveryFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
         query.include("userId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", "");
+        final String display = options.getString("displayName", " ");
         final String id = options.getString("userId", "");
         query.whereNotEqualTo("status", "Delivered");
         query.whereEqualTo("delivererId", id);

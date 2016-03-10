@@ -96,7 +96,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                 @Override
                 public void onClick(View v) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    final String display = options.getString("displayName", "");
+                    final String display = options.getString("displayName", " ");
                     final String id = options.getString("userId", "");
                     ParseQuery query = new ParseQuery("Request");
                     query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {

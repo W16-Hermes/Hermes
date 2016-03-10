@@ -70,7 +70,7 @@ public class MyRequestsFragment extends Fragment {
         query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", "");
+        final String display = options.getString("displayName", " ");
         Log.v(TAG, "Display name is:" + display);
         query.whereEqualTo("screenName", display);
         query.orderByDescending("createdAt").setLimit(200);
