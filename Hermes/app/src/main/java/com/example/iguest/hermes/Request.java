@@ -18,6 +18,7 @@ public class Request {
     private String description;
     private String status;
     private Date createTime;
+    private String requestID;
 
     public Request(String userId, ParseGeoPoint deliveryLocation, String restaurantName, String description) {
         this.userId = userId;
@@ -62,6 +63,8 @@ public class Request {
         return status;
     }
 
+    public String getRequestID() {return requestID;}
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -85,6 +88,10 @@ public class Request {
 
     public String toString() {
         return this.userId + " " + this.description + " from " + this.restaurantName;
+    }
+
+    public void setRequestID(String ID) {
+        this.requestID = ID;
     }
 
 }

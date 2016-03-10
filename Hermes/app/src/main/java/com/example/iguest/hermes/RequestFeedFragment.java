@@ -87,8 +87,10 @@ public class RequestFeedFragment extends Fragment {
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
+                        String status = object.getString("status");
                         Request request = new Request(user, deliveryLocation, restaurant, descript);
-
+                        request.setRequestID(object.getObjectId());
+                        request.setStatus(object.getString("status"));
                         adapter.add(request);
                     }
                 }

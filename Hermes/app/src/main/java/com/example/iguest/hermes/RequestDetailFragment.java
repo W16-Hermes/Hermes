@@ -65,31 +65,6 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
         final View rootView = inflater.inflate(R.layout.fragment_request_detail, container, false);
 
         Button accept = (Button) rootView.findViewById(R.id.accept);
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                final String display = options.getString("displayName", "");
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-                query.whereEqualTo("screenName", display);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (e == null) {
-                            ParseObject newEntry = new ParseObject("User");
-                            newEntry.put("screenName", display);
-                            newEntry.put("score", 0);
-                            newEntry.saveInBackground();
-                        }
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-                        query.include("userId");
-                        query.include("restaurantId");
-
-                    }
-                });
-                Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
-            }
-        });
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -99,7 +74,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                     .build();
         }
 
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         if (bundle != null) {
             TextView titleTextView = (TextView) rootView.findViewById(R.id.RequestDetailTitle);
             titleTextView.setText(bundle.getString("title"));
@@ -115,6 +90,30 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
             TextView statusTextView = (TextView) rootView.findViewById(R.id.RequestDetailStatus);
             statusTextView.setText(bundle.getString("status"));
+
+            accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    final String display = options.getString("displayName", "");
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+                    query.whereEqualTo("screenName", display);
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (e == null) {
+                                ParseObject newEntry = new ParseObject("User");
+                                newEntry.put("screenName", display);
+                                newEntry.put("score", 0);
+                                newEntry.saveInBackground();
+                            }
+                            final ParseObject update = new ParseObject("Request");
+                            //update.put()
+                        }
+                    });
+                    Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
+                }
+            });
 
             mMapView = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             mMapView.onCreate(savedInstanceState);
