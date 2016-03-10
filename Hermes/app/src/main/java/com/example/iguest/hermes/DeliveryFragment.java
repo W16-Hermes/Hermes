@@ -82,11 +82,12 @@ public class DeliveryFragment extends Fragment {
                 if (objects != null) {
                     for (ParseObject object : objects) {
                         if (object.getParseObject("delivererId") != null) {
+                            String user = object.getParseObject("userId").getString("screenName");
                             String deliver = object.getParseObject("delivererId").getString("screenName");
                             String restaurant = object.getParseObject("restaurantId").getString("Name");
                             ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                             String descript = object.getString("description");
-                            Request request = new Request(display, deliveryLocation, restaurant, descript);
+                            Request request = new Request(user, deliveryLocation, restaurant, descript);
                             request.setRequestID(object.getObjectId());
                             request.setStatus(object.getString("status"));
                             if (deliver.equals(display)) {
