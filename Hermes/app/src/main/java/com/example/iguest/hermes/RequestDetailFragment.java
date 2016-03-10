@@ -2,10 +2,12 @@ package com.example.iguest.hermes;
 
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -25,15 +27,22 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RequestDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class RequestDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
     MapFragment mMapView;
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
@@ -98,6 +107,9 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
             // latitude and longitude
             double latitude = bundle.getDouble("Latitude");
             double longitude = bundle.getDouble("Longitude");
+            mMapView.getMapAsync(this);
+            //mMapView.setRetainInstance(true);
+            mMapView.setHasOptionsMenu(true);
 
             // create marker
             MarkerOptions marker = new MarkerOptions().position(
@@ -162,8 +174,29 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.v("GPS Tester", "Location Changed");
         MarkerOptions marker = new MarkerOptions().position(
                 new LatLng(location.getLatitude(), location.getLongitude())).title("Current");
         googleMap.addMarker(marker);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap gMap) {
+        googleMap = gMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    @Override
+    public void onStart() {
+        //Allows requests for location updates
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        //Stops requests for location updates
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 }
