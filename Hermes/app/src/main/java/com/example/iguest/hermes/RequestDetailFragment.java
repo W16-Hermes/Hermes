@@ -179,11 +179,6 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                         marker.icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                         googleMap.addMarker(marker);
-
-                        CameraPosition cameraPosition = new CameraPosition.Builder()
-                                .target(new LatLng(loc.getLatitude(), loc.getLongitude())).zoom(16).build();
-                        googleMap.animateCamera(CameraUpdateFactory
-                                .newCameraPosition(cameraPosition));
                     }
                 } catch(SecurityException e) {
                     Log.v(TAG, "Security Exception");
