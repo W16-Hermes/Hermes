@@ -63,9 +63,6 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
             TextView titleTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailTitle);
             titleTextView.setText(bundle.getString("title"));
 
-            TextView userTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailUser);
-            userTextView.setText(bundle.getString("user"));
-
             TextView restaurantTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailRestaurant);
             restaurantTextView.setText(bundle.getString("restaurant"));
 
