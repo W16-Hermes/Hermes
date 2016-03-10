@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -42,8 +43,6 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     private static final String TAG = "Tracker Fragment";
     private String selectedRestaurant = "";
     private Random random = new Random();
-    private String userId;
-
 
     public AddRequestFragment() {
         // Required empty public constructor
@@ -144,41 +143,24 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    final String userName = options.getString("displayName", " ");
-                    parseDisplayName convert = new parseDisplayName();
-                    final String userID = convert.convertToId(userName);
-                    //final String userID = options.getString("userId", " ");
-
-                    /*
-                    ParseQuery query = new ParseQuery("User");
-                    query.whereEqualTo("displayName", userName);*/
-
-                    ParseQuery query = new ParseQuery("Request");
-                    query.include("userId");
-                    query.include("restaurantId");
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (e == null) {
-                                for (ParseObject object : objects) {
-                                    userId = object.getObjectId();
-                                }
-                                //Enters the data into Parse.com
-                                ParseObject newEntry = new ParseObject("Request");
-                                newEntry.put("userId", ParseObject.createWithoutData("User", userId));
-                                newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
-                                newEntry.put("status", "Pending");
-                                Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
-                                String restaurantId = spinner.getSelectedItem().toString();
-                                //newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
-                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
-                                String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
-                                newEntry.put("description", description);
-                                newEntry.saveInBackground();
-                            }
-                        }
-                    });
+                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                final String userName = options.getString("displayName", " ");
+                final String userID = options.getString("userId", " ");
+                if (userID.equals(" ")) {
+                    Toast.makeText(getActivity(), "Please change user name", Toast.LENGTH_LONG).show();
+                } else {
+                    ParseObject newEntry = new ParseObject("Request");
+                    newEntry.put("userId", ParseObject.createWithoutData("User", userID));
+                    newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
+                    newEntry.put("status", "Pending");
+                    Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
+                    String restaurantId = spinner.getSelectedItem().toString();
+                    //newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
+                    newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
+                    String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
+                    newEntry.put("description", description);
+                    newEntry.saveInBackground();
+                }
                 }
             })
             //Cancels the action

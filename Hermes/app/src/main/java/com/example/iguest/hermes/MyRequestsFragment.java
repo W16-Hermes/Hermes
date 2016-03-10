@@ -77,7 +77,7 @@ public class MyRequestsFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+                if (e != null) {
                     for (ParseObject object : objects) {
                         //String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
