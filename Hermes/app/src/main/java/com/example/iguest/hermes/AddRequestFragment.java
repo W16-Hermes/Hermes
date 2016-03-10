@@ -41,6 +41,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     private String selectedRestaurant = "";
     private String[] restaurants = new String[11];
     private Random random = new Random();
+    private String userId;
 
 
     public AddRequestFragment() {
@@ -133,15 +134,23 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-
-                builder.setView(rootView)
-                        //Confirms the action
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                final String userId = options.getString("userId", "");
-
+        builder.setView(rootView)
+            //Confirms the action
+            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    //final String userId = options.getString("userId", "");
+                    final String userName = options.getString("displayName", "");
+                    ParseQuery query = new ParseQuery("User");
+                    query.whereEqualTo("screenName", userName);
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (e == null) {
+                                for (ParseObject object : objects) {
+                                    userId = object.getObjectId();
+                                }
                                 //Enters the data into Parse.com
                                 ParseObject newEntry = new ParseObject("Request");
                                 newEntry.put("userId", ParseObject.createWithoutData("User", userId));
@@ -152,13 +161,16 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();
                             }
-                        })
-                                //Cancels the action
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                mListener.onDialogNegativeClick(AddRequestFragment.this);
-                            }
-                        });
+                        }
+                    });
+                }
+            })
+            //Cancels the action
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    mListener.onDialogNegativeClick(AddRequestFragment.this);
+                }
+            });
         return builder.create();
     }
 }
