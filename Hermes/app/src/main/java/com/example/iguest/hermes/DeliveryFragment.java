@@ -71,22 +71,21 @@ public class DeliveryFragment extends Fragment {
         //parseDisplayName convert = new parseDisplayName();
         final String id = options.getString("userId", "");
         query.whereNotEqualTo("status", "Delivered");
-        query.whereEqualTo("delivererId", id);
+        //query.whereEqualTo("delivererId", id);
+        query.include("userId");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null) {
-                    int count = 0;
                     for (ParseObject object : objects) {
-                        //String user = object.getParseObject("userId").getString("screenName");
+                        String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
                         //Request request = new Request(user, deliveryLocation, restaurant, descript);
                         Request request = new Request(display, deliveryLocation, restaurant, descript);
-                        if (count <= 10) {
-                            count++;
+                        if (user.equals(display)) {
                             adapter.add(request);
                         }
                     }

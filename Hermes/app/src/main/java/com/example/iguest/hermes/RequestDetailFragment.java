@@ -91,20 +91,23 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                 public void onClick(View v) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String display = options.getString("displayName", " ");
-                    parseDisplayName convert = new parseDisplayName();
-                    final String id = convert.convertToId(display);
-                    ParseQuery query = new ParseQuery("Request");
-                    query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, ParseException e) {
-                            if (object != null) {
-                                object.put("delivererId", ParseObject.createWithoutData("User", id));
-                                object.put("status", "Request Accepted");
-                                object.saveInBackground();
+                    final String id = options.getString("userId", " ");
+                    if (id.equals(" ")) {
+                        Toast.makeText(getActivity(), "Change User Name", Toast.LENGTH_LONG).show();
+                    } else {
+                        ParseQuery query = new ParseQuery("Request");
+                        query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject object, ParseException e) {
+                                if (object != null) {
+                                    object.put("delivererId", ParseObject.createWithoutData("User", id));
+                                    object.put("status", "Request Accepted");
+                                    object.saveInBackground();
+                                }
                             }
-                        }
-                    });
-                    Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
+                        });
+                        Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 

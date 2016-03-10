@@ -85,22 +85,17 @@ public class RequestFeedFragment extends Fragment {
                     for (ParseObject object : objects) {
                         String user;
                         if(object.getParseObject("userId") != null) {
-                            Log.v(TAG, "Object is not null");
                             user = object.getParseObject("userId").getString("screenName");
-                        } else {
-                            Log.v(TAG, "Object is null");
-                            user = "Ci4axeN0LI";
-                        }
-                        Log.v(TAG, "ScreenName is: " + user);
-                        String restaurant = object.getParseObject("restaurantId").getString("Name");
-                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                        String descript = object.getString("description");
-                        String status = object.getString("status");
-                        Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        request.setRequestID(object.getObjectId());
-                        request.setStatus(object.getString("status"));
-                        if (status.equals("Pending")) {
-                            adapter.add(request);
+                            String restaurant = object.getParseObject("restaurantId").getString("Name");
+                            ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
+                            String descript = object.getString("description");
+                            String status = object.getString("status");
+                            Request request = new Request(user, deliveryLocation, restaurant, descript);
+                            request.setRequestID(object.getObjectId());
+                            request.setStatus(object.getString("status"));
+                            if (status.equals("Pending")) {
+                                adapter.add(request);
+                            }
                         }
                     }
                 }

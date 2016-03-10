@@ -160,6 +160,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                     String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                     newEntry.put("description", description);
                     newEntry.saveInBackground();
+                    Toast.makeText(getActivity(), "Request Added", Toast.LENGTH_LONG).show();
                 }
                 }
             })
