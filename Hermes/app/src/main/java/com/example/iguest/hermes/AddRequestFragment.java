@@ -94,6 +94,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View rootView = inflater.inflate(R.layout.fragment_add_request, null);
         final List<String> categories = new ArrayList<String>();
+        final Map<String, String> restaurantFinder = new HashMap<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Restaurants");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -103,15 +104,18 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                 if (e == null) {
                     for (ParseObject object : objects) {
                         String name = object.getString("Name");
+                        String oID = object.getObjectId();
                         categories.add(name);
+                        restaurantFinder.put(name, oID);
                     }
                 }
             }
         });
 
         categories.add("Please Select Restaurant");
-        Map<String, String> restaurantFinder = new HashMap<>();
-        restaurantFinder.put("Gainsborough Cantina", "GR472AUMZ1");
+        restaurantFinder.put("Please Select Restaurant", "JQAK4hwojI");
+
+        /*restaurantFinder.put("Gainsborough Cantina", "GR472AUMZ1");
         restaurantFinder.put("Trippers", "8889Evoy5m");
         restaurantFinder.put("Zona", "JQAK4hwojI");
         restaurantFinder.put("Dough Baby", "8Im3Zbmd2P");
@@ -121,7 +125,7 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
         restaurantFinder.put("Nuxa Bar and Grill", "fyW48URAVy");
         restaurantFinder.put("Green-T", "jx8E4mMCE4");
         restaurantFinder.put("Parallax Coffee", "hh1Qz3nQmr");
-        restaurantFinder.put("University Teriyaki", "C6WJm1AsKV");
+        restaurantFinder.put("University Teriyaki", "C6WJm1AsKV");*/
 
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
@@ -142,6 +146,8 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                 public void onClick(DialogInterface dialog, int id) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String userName = options.getString("displayName", " ");
+                    final String userID = options.getString("userId", " ");
+
                     ParseQuery query = new ParseQuery("User");
                     query.whereEqualTo("displayName", userName);
 

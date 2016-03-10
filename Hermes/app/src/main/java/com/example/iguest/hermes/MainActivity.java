@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements
         options = PreferenceManager.getDefaultSharedPreferences(this);
         String screenName = options.getString("displayName", "");
         if (screenName.length() == 0) {
-            new UserPopup().show(this.getFragmentManager(), "dialog");
+            //new UserPopup().show(this.getFragmentManager(), "dialog");
         }
         Parse.initialize(this);
     }
