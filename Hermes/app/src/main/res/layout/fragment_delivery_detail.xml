@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:layout_below="@+id/MyRequestDetailTitle"
+        android:layout_below="@+id/DeliverDetailTitle"
         android:text="Status"
         />
 
@@ -32,7 +32,7 @@
         android:text="Restaurant"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:layout_below="@id/MyRequestDetailStatus"
+        android:layout_below="@id/DeliverDetailStatus"
         />
 
     <TextView
@@ -41,8 +41,32 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:layout_below="@+id/MyRequestDetailRestaurant"
-        android:text="Description"
+        android:layout_below="@+id/DeliverDetailRestaurant"
+        android:text="User"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Picked Up"
+        android:id="@+id/picked"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/DeliverDetailStatus" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivered"
+        android:id="@+id/deliver"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/picked" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancel"
+        android:layout_alignBottom="@+id/deliver"
+        android:layout_toEndOf="@+id/deliver" />
 
 </RelativeLayout>

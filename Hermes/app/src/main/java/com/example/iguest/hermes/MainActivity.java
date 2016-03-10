@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements
         bundle.putString("user", r.getUserId());
         bundle.putString("status", r.getStatus());
         bundle.putString("restaurant", r.getRestaurantName());
+        bundle.putString("id", r.getRequestID());
 
         details.setArguments(bundle);
 
