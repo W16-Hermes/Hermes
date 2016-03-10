@@ -54,6 +54,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_request_detail, container, false);
+
         Button accept = (Button) rootView.findViewById(R.id.accept);
         accept.setOnClickListener(new View.OnClickListener() {
             @Override

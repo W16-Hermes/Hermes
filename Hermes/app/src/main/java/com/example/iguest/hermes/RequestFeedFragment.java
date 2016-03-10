@@ -1,11 +1,7 @@
 package com.example.iguest.hermes;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +22,6 @@ import java.util.List;
 
 public class RequestFeedFragment extends Fragment {
     private ArrayAdapter adapter;
-    private RequestListener callback;
 
     public interface RequestListener{
         void onSelected(Request r);
@@ -77,10 +72,6 @@ public class RequestFeedFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    if (!objects.isEmpty()) {
-                        TextView label = (TextView) getActivity().findViewById(R.id.allRequestLabel);
-                        label.setVisibility(View.GONE);
-                    }
                     for (ParseObject object : objects) {
                         String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
