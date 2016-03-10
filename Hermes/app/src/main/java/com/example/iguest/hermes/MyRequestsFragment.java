@@ -66,20 +66,27 @@ public class MyRequestsFragment extends Fragment {
     }
 
     private void GetMyRequests() {
+        Log.v(TAG, "In here");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
         query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", " ");
+        final String id = options.getString("userId", " ");
         Log.v(TAG, "Display name is:" + display);
-        query.whereEqualTo("screenName", display);
+        Log.v(TAG, "User ID is:" + id);
+        query.include("userId");
+        //query.whereEqualTo("userId", id);
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if (e != null) {
+                if (objects != null) {
+                    Log.v(TAG, "Found requests for you");
                     for (ParseObject object : objects) {
-                        //String user = object.getParseObject("userId").getString("screenName");
+                        Log.v(TAG, "In query loop");
+                        Log.v(TAG, object.get("userId").toString());
+                        String user = object.getParseObject("userId").getString("screenName");
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
@@ -87,8 +94,12 @@ public class MyRequestsFragment extends Fragment {
                         Request request = new Request(display, deliveryLocation, restaurant, descript);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
-                        adapter.add(request);
+                        if(user.equals(display)) {
+                            adapter.add(request);
+                        }
                     }
+                } else {
+                    Log.v(TAG, "No requests for you");
                 }
             }
         });
