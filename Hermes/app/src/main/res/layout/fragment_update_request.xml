@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.iguest.hermes.MyRequestDetailFragment"
-    >
+    tools:context="com.example.iguest.hermes.UpdateRequestFragment">
 
     <TextView
-        android:id="@+id/MyRequestDetailTitle"
+        android:id="@+id/UpdateRequestTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
@@ -16,42 +15,48 @@
         />
 
     <TextView
-        android:id="@+id/MyRequestDetailStatus"
-        android:layout_width="wrap_content"
+        android:id="@+id/UpdateRequestStatus"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:layout_below="@+id/MyRequestDetailTitle"
+        android:layout_below="@+id/UpdateRequestTitle"
         android:text="Status"
         />
 
-    <TextView
-        android:id="@+id/MyRequestDetailRestaurant"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/UpdateRequestRestaurant"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Restaurant"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:layout_below="@id/MyRequestDetailStatus"
-        />
+        android:layout_below="@id/UpdateRequestStatus">
 
-    <TextView
-        android:id="@+id/MyRequestDetailDescription"
-        android:layout_width="wrap_content"
+    </Spinner>
+
+    <EditText
+        android:id="@+id/UpdateRequestDescription"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:paddingTop="16dp"
-        android:layout_below="@+id/MyRequestDetailRestaurant"
+        android:layout_below="@+id/UpdateRequestRestaurant"
         android:text="Description"
         />
 
     <Button
-        android:id="@+id/editButton"
+        android:id="@+id/UpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:text="Update"
+        android:layout_below="@+id/UpdateRequestDescription"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/MyRequestDetailDescription"
+        />
+
+    <Button
+        android:id="@+id/DeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_below="@+id/UpdateRequestDescription"
         />
 
     <fragment
@@ -60,7 +65,7 @@
         android:id="@+id/MyRequestDetailsMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editButton"
+        android:layout_below="@+id/UpdateButton"
         />
 
 </RelativeLayout>
