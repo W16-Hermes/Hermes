@@ -70,9 +70,9 @@ public class MyRequestsFragment extends Fragment {
         query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", "");
+        final String display = options.getString("displayName", " ");
         Log.v("a", display);
-        //query.whereEqualTo("screenName", display);
+        query.whereEqualTo("screenName", display);
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -86,10 +86,7 @@ public class MyRequestsFragment extends Fragment {
                         Request request = new Request(user, deliveryLocation, restaurant, descript);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
-                        if (user.equals(display)) {
-                            adapter.add(request);
-                        }
-
+                        adapter.add(request);
                     }
                 }
             }

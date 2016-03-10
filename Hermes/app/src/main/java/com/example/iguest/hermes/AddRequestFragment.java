@@ -25,8 +25,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.crypto.spec.DESedeKeySpec;
@@ -39,7 +41,6 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
     private String selectedRestaurant = "";
-    private String[] restaurants = new String[11];
     private Random random = new Random();
     private String userId;
 
@@ -109,18 +110,18 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
         });
 
         categories.add("Please Select Restaurant");
-
-        restaurants[0] = "GR472AUMZ1";
-        restaurants[1] = "8889Evoy5m";
-        restaurants[2] = "JQAK4hwojI";
-        restaurants[3] = "8Im3Zbmd2P";
-        restaurants[4] = "C9oBlivLgp";
-        restaurants[5] = "b8QdEL8uMK";
-        restaurants[6] = "wz8o2l5Iec";
-        restaurants[7] = "fyW48URAVy";
-        restaurants[8] = "jx8E4mMCE4";
-        restaurants[9] = "hh1Qz3nQmr";
-        restaurants[10] = "C6WJm1AsKV";
+        Map<String, String> restaurantFinder = new HashMap<>();
+        restaurantFinder.put("Gainsborough Cantina", "GR472AUMZ1");
+        restaurantFinder.put("Trippers", "8889Evoy5m");
+        restaurantFinder.put("Zona", "JQAK4hwojI");
+        restaurantFinder.put("Dough Baby", "8Im3Zbmd2P");
+        restaurantFinder.put("Blue Bison Café", "C9oBlivLgp");
+        restaurantFinder.put("Café Julio Tavern", "b8QdEL8uMK");
+        restaurantFinder.put("Boy Bistro", "wz8o2l5Iec");
+        restaurantFinder.put("Nuxa Bar and Grill", "fyW48URAVy");
+        restaurantFinder.put("Green-T", "jx8E4mMCE4");
+        restaurantFinder.put("Parallax Coffee", "hh1Qz3nQmr");
+        restaurantFinder.put("University Teriyaki", "C6WJm1AsKV");
 
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
@@ -140,10 +141,13 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    //final String userId = options.getString("userId", "");
-                    final String userName = options.getString("displayName", "");
+                    final String userName = options.getString("displayName", " ");
                     ParseQuery query = new ParseQuery("User");
-                    query.whereEqualTo("screenName", userName);
+                    query.whereEqualTo("displayName", userName);
+
+                    /*ParseQuery query = new ParseQuery("Request");
+                    query.include("userId");
+                    query.include("restaurantId");
                     query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> objects, ParseException e) {
@@ -156,13 +160,15 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                                 newEntry.put("userId", ParseObject.createWithoutData("User", userId));
                                 newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
                                 newEntry.put("status", "Pending");
+                                Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
+                                String restaurantId = spinner.getSelectedItem().toString();
                                 newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
                                 String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();
                             }
                         }
-                    });
+                    });*/
                 }
             })
             //Cancels the action

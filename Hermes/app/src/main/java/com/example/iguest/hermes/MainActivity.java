@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -18,11 +19,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class MainActivity extends AppCompatActivity implements
         AddRequestFragment.DialogListener,
         RequestFeedFragment.RequestListener,
-        MyRequestsFragment.MyRequestListener {
+        MyRequestsFragment.MyRequestListener,
+        UserPopup.PopupListener
+{
 
     private static final String TAG = "MAIN_ACTIVITY";
     private FragmentManager manager;
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private SharedPreferences options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,11 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        options = PreferenceManager.getDefaultSharedPreferences(this);
+        String screenName = options.getString("displayName", "");
+        if (screenName.length() == 0) {
+            new UserPopup().show(this.getFragmentManager(), "dialog");
+        }
         Parse.initialize(this);
     }
 
@@ -182,5 +193,15 @@ public class MainActivity extends AppCompatActivity implements
                 .commit();
 
         ConfigureToolbar();
+    }
+
+    @Override
+    public void onDialogPositive(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegative(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }
