@@ -33,26 +33,52 @@
         android:text="User"
         android:layout_marginLeft="0dp"
         android:textSize="20dp"
-        android:layout_alignBottom="@+id/RequestDetailUserLabel"
-        android:layout_toEndOf="@+id/RequestDetailUserLabel" />
+        android:layout_alignTop="@+id/RequestDetailUserLabel"
+        android:layout_alignStart="@+id/RequestDetailRestaurant" />
+
+    <TextView
+        android:id="@+id/RequestDetailRestaurantLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_margin="16dp"
+        android:layout_below="@id/RequestDetailUser"
+        />
 
     <TextView
         android:id="@+id/RequestDetailRestaurant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restaurant"
+        android:textSize="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignBottom="@+id/RequestDetailRestaurantLabel"
+        android:layout_toEndOf="@+id/RequestDetailRestaurantLabel"
+        />
+
+    <TextView
+        android:id="@+id/RequestDetailDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:layout_margin="16dp"
-        android:layout_below="@id/RequestDetailUser"
+        android:layout_below="@+id/RequestDetailRestaurant"
+        android:text="Description"
         />
 
     <TextView
         android:id="@+id/RequestDetailDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_below="@+id/RequestDetailRestaurant"
+        android:textSize="20dp"
+        android:layout_marginRight="16dp"
         android:text="Description"
-        />
+        android:layout_below="@+id/RequestDetailDescriptionLabel"
+        android:layout_alignStart="@+id/RequestDetailDescriptionLabel" />
 
     <Button
         android:id="@+id/accept"
@@ -61,7 +87,7 @@
         android:text="ACCEPT REQUEST"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/RequestDetailDescription"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
 
         />
 
