@@ -31,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User"
-        android:layout_marginLeft="0dp"
         android:textSize="20dp"
         android:layout_alignTop="@+id/RequestDetailUserLabel"
         android:layout_alignStart="@+id/RequestDetailRestaurant" />
@@ -74,7 +73,7 @@
         android:id="@+id/RequestDetailDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginRight="16dp"
         android:text="Description"
         android:layout_below="@+id/RequestDetailDescriptionLabel"
@@ -88,7 +87,6 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/RequestDetailDescription"
         android:layout_margin="16dp"
-
         />
 
     <fragment
