@@ -1,10 +1,8 @@
 package com.example.iguest.hermes;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -25,6 +24,14 @@ import com.parse.SaveCallback;
  */
 public class DeliveryDetailFragment extends Fragment {
 
+    private TextView titleTextView;
+    private TextView statusTextView;
+    private TextView restaurantTextView;
+    private TextView userTextView;
+    private TextView descriptionTextView;
+    private Button pickedUp;
+    private Button delivered;
+    private Button cancel;
 
     public DeliveryDetailFragment() {
         // Required empty public constructor
@@ -38,22 +45,9 @@ public class DeliveryDetailFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_delivery_detail, container, false);
         final Bundle bundle = getArguments();
         if (bundle != null) {
-            TextView titleTextView = (TextView) rootView.findViewById(R.id.DeliverDetailTitle);
-            titleTextView.setText(bundle.getString("title"));
+            InitializeFields(rootView);
+            SetFieldValues(bundle);
 
-            TextView statusTextView = (TextView) rootView.findViewById(R.id.DeliverDetailStatus);
-            statusTextView.setText(bundle.getString("status"));
-
-            TextView restaurantTextView = (TextView) rootView.findViewById(R.id.DeliverDetailRestaurant);
-            restaurantTextView.setText(bundle.getString("restaurant"));
-
-            TextView userTextView = (TextView) rootView.findViewById(R.id.DeliverDetailUser);
-            userTextView.setText(bundle.getString("user"));
-
-            TextView descriptionTextView = (TextView) rootView.findViewById(R.id.DeliverDetailDescription);
-            descriptionTextView.setText(bundle.getString("description"));
-
-            Button pickedUp = (Button) rootView.findViewById(R.id.picked);
             pickedUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,7 +65,6 @@ public class DeliveryDetailFragment extends Fragment {
                 }
             });
 
-            Button delivered = (Button) rootView.findViewById(R.id.deliver);
             delivered.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,7 +86,6 @@ public class DeliveryDetailFragment extends Fragment {
                 }
             });
 
-            Button cancel = (Button) rootView.findViewById(R.id.cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,8 +105,27 @@ public class DeliveryDetailFragment extends Fragment {
                 }
             });
         }
-
         return rootView;
     }
 
+
+    private void InitializeFields(View rootView) {
+        titleTextView = (TextView) rootView.findViewById(R.id.DeliverDetailTitle);
+        statusTextView = (TextView) rootView.findViewById(R.id.DeliverDetailStatus);
+        restaurantTextView = (TextView) rootView.findViewById(R.id.DeliverDetailRestaurant);
+        userTextView = (TextView) rootView.findViewById(R.id.DeliverDetailUser);
+        descriptionTextView = (TextView) rootView.findViewById(R.id.DeliverDetailDescription);
+
+        pickedUp = (Button) rootView.findViewById(R.id.picked);
+        delivered = (Button) rootView.findViewById(R.id.deliver);
+        cancel = (Button) rootView.findViewById(R.id.cancel);
+    }
+
+    private void SetFieldValues(Bundle bundle) {
+        titleTextView.setText(bundle.getString("title"));
+        statusTextView.setText(bundle.getString("status"));
+        restaurantTextView.setText(bundle.getString("restaurant"));
+        userTextView.setText(bundle.getString("user"));
+        descriptionTextView.setText(bundle.getString("description"));
+    }
 }

@@ -42,7 +42,6 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     DialogListener mListener;
     private static final String TAG = "Tracker Fragment";
     private String selectedRestaurant = "";
-    private Random random = new Random();
 
     public AddRequestFragment() {
         // Required empty public constructor
@@ -60,8 +59,8 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
     }
 
     public interface DialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 
     @Override
@@ -77,14 +76,6 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                     + " must implement DialogListener");
         }
     }
-
-   /* @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_recording, container, false);
-        return rootView;
-    }*/
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -114,19 +105,6 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
         categories.add("Please Select Restaurant");
         restaurantFinder.put("Please Select Restaurant", "JQAK4hwojI");
 
-        /*restaurantFinder.put("Gainsborough Cantina", "GR472AUMZ1");
-        restaurantFinder.put("Trippers", "8889Evoy5m");
-        restaurantFinder.put("Zona", "JQAK4hwojI");
-        restaurantFinder.put("Dough Baby", "8Im3Zbmd2P");
-        restaurantFinder.put("Blue Bison Café", "C9oBlivLgp");
-        restaurantFinder.put("Café Julio Tavern", "b8QdEL8uMK");
-        restaurantFinder.put("Boy Bistro", "wz8o2l5Iec");
-        restaurantFinder.put("Nuxa Bar and Grill", "fyW48URAVy");
-        restaurantFinder.put("Green-T", "jx8E4mMCE4");
-        restaurantFinder.put("Parallax Coffee", "hh1Qz3nQmr");
-        restaurantFinder.put("University Teriyaki", "C6WJm1AsKV");*/
-
-
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
@@ -149,13 +127,13 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                 if (userID.equals(" ")) {
                     Toast.makeText(getActivity(), "Please change user name", Toast.LENGTH_LONG).show();
                 } else {
+                    //Adds a new request into the database
                     ParseObject newEntry = new ParseObject("Request");
                     newEntry.put("userId", ParseObject.createWithoutData("User", userID));
                     newEntry.put("deliveryLocation", new ParseGeoPoint(47.65722, -122.31561));
                     newEntry.put("status", "Pending");
                     Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
                     String restaurantId = spinner.getSelectedItem().toString();
-                    //newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
                     newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
                     String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                     newEntry.put("description", description);

@@ -30,6 +30,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +42,11 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
     private static final int LOC_REQUEST_CODE = 1;
-    private Button editButton;
 
+    private TextView titleTextView;
+    private TextView restaurantTextView;
+    private TextView descriptionTextView;
+    private TextView statusTextView;
 
     public MyRequestDetailFragment() {
         // Required empty public constructor
@@ -63,18 +68,9 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            TextView titleTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailTitle);
-            titleTextView.setText(bundle.getString("title"));
+            InitializeFields(rootView);
+            SetTextFields(bundle);
 
-            TextView restaurantTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailRestaurant);
-            restaurantTextView.setText(bundle.getString("restaurant"));
-
-            TextView descriptionTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailDescription);
-            descriptionTextView.setText(bundle.getString("description"));
-
-            TextView statusTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailStatus);
-            statusTextView.setText(bundle.getString("status"));
-            
             mMapView = (MapFragment) getChildFragmentManager().findFragmentById(R.id.MyRequestDetailsMap);
             mMapView.onCreate(savedInstanceState);
 
@@ -108,11 +104,22 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
 
 
         }
-
         return rootView;
     }
 
-    private void UpdateRequestAction() {
+    private void InitializeFields(View rootView) {
+        titleTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailTitle);
+        restaurantTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailRestaurant);
+        descriptionTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailDescription);
+        statusTextView = (TextView) rootView.findViewById(R.id.MyRequestDetailStatus);
+    }
+
+    private void SetTextFields(Bundle bundle) {
+        titleTextView.setText(bundle.getString("title"));
+        restaurantTextView.setText(bundle.getString("restaurant"));
+        descriptionTextView.setText(bundle.getString("description"));
+        statusTextView.setText(bundle.getString("status"));
+
 
     }
 

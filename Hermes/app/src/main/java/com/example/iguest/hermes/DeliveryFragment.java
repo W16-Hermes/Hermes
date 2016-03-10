@@ -68,10 +68,8 @@ public class DeliveryFragment extends Fragment {
         query.include("userId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", " ");
-        //parseDisplayName convert = new parseDisplayName();
         final String id = options.getString("userId", "");
         query.whereNotEqualTo("status", "Delivered");
-        //query.whereEqualTo("delivererId", id);
         query.include("userId");
         query.include("delivererId");
         query.include("restaurantId");
@@ -98,34 +96,6 @@ public class DeliveryFragment extends Fragment {
                 }
             }
         });
-        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-        query.include("userId");
-        query.include("restaurantId");
-        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", "");
-        Log.v("a", display);
-        query.whereEqualTo("screenName", display);
-        query.orderByDescending("createdAt").setLimit(200);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    int count = 0;
-                    for (ParseObject object : objects) {
-                        String user = object.getParseObject("userId").getString("screenName");
-                        String restaurant = object.getParseObject("restaurantId").getString("Name");
-                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                        String descript = object.getString("description");
-                        Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        if (count <= 5) {
-                            count++;
-                            adapter.add(request);
-                        }
-
-                    }
-                }
-            }
-        });*/
     }
 
 }

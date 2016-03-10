@@ -76,7 +76,6 @@ public class MyRequestsFragment extends Fragment {
         Log.v(TAG, "Display name is:" + display);
         Log.v(TAG, "User ID is:" + id);
         query.include("userId");
-        //query.whereEqualTo("userId", id);
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
