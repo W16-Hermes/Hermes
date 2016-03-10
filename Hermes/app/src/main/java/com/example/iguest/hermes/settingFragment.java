@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -26,20 +27,25 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
 
         // Load the settings from the pref.xml
         addPreferencesFromResource(R.xml.pref);
-        PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).registerOnSharedPreferenceChangeListener(this);
+        onSharedPreferenceChanged(null, "");
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // handle the preference change here
+        Log.v("Setting", "In shared preference change");
         if (key.equals("displayName")) {
+            Log.v("Setting", "In display name change");
+
             final String name = sharedPreferences.getString("displayName", "");
             ParseQuery query = ParseQuery.getQuery("User");
             query.whereEqualTo("screenName", name);
             query.getFirstInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject object, ParseException e) {
-                    if (e == null) {
+                    if (object == null) {
+                        Log.v("Setting", "User not found");
+
                         final ParseObject user = new ParseObject("User");
                         user.put("screenName", name);
                         user.put("score", 0);
@@ -53,5 +59,17 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 }

@@ -83,7 +83,14 @@ public class RequestFeedFragment extends Fragment {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject object : objects) {
-                        String user = object.getParseObject("userId").getString("screenName");
+                        String user;
+                        if(object.getParseObject("userId") != null) {
+                            Log.v(TAG, "Object is not null");
+                            user = object.getParseObject("userId").getString("screenName");
+                        } else {
+                            Log.v(TAG, "Object is null");
+                            user = "Ci4axeN0LI";
+                        }
                         String restaurant = object.getParseObject("restaurantId").getString("Name");
                         ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
                         String descript = object.getString("description");
