@@ -148,10 +148,11 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                     final String userName = options.getString("displayName", " ");
                     final String userID = options.getString("userId", " ");
 
+                    /*
                     ParseQuery query = new ParseQuery("User");
-                    query.whereEqualTo("displayName", userName);
+                    query.whereEqualTo("displayName", userName);*/
 
-                    /*ParseQuery query = new ParseQuery("Request");
+                    ParseQuery query = new ParseQuery("Request");
                     query.include("userId");
                     query.include("restaurantId");
                     query.findInBackground(new FindCallback<ParseObject>() {
@@ -168,13 +169,14 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                                 newEntry.put("status", "Pending");
                                 Spinner spinner = (Spinner)rootView.findViewById(R.id.spinner);
                                 String restaurantId = spinner.getSelectedItem().toString();
-                                newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
+                                //newEntry.put("restaurantId", ParseObject.createWithoutData("Restaurants", restaurants[random.nextInt(11)]));
+                                newEntry.put("restaruantId", ParseObject.createWithoutData("Restaurants", restaurantFinder.get(restaurantId)));
                                 String description = ((EditText) rootView.findViewById(R.id.reqDescription)).getText().toString();
                                 newEntry.put("description", description);
                                 newEntry.saveInBackground();
                             }
                         }
-                    });*/
+                    });
                 }
             })
             //Cancels the action

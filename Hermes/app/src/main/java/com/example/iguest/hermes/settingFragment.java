@@ -37,31 +37,28 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
             final String name = sharedPreferences.getString("displayName", "");
             ParseQuery query = ParseQuery.getQuery("User");
             query.whereEqualTo("screenName", name);
-            try {
-                ParseObject object = query.getFirst();
-                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                SharedPreferences.Editor prefEditor = options.edit();
-                prefEditor.putString("userId", object.getObjectId());
-                prefEditor.commit();
-            } catch (ParseException e) {
-                final ParseObject user = new ParseObject("User");
-                user.put("screenName", name);
-                user.put("score", 0);
-                String phone = " ";
-                for (int i = 0; i < 10; i++) {
-                    phone = phone + random.nextInt(9);
-                }
-                user.put("phoneNumber", phone);
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (object == null) {
+                        final ParseObject user = new ParseObject("User");
+                        user.put("screenName", name);
+                        user.put("score", 0);
+                        String phone = " ";
+                        for (int i = 0; i < 10; i++) {
+                            phone = phone + random.nextInt(9);
+                        }
+                        user.put("phoneNumber", phone);
+                        user.saveInBackground();
+                        Log.v("tag", user.getObjectId());
+                    } else {
                         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                         SharedPreferences.Editor prefEditor = options.edit();
-                        prefEditor.putString("userId", user.getObjectId());
+                        prefEditor.putString("userId", object.getObjectId());
                         prefEditor.commit();
                     }
-                });
-            }
+                }
+            });
             final String display = sharedPreferences.getString("userId", "");
             Log.v("Name", display);
         }

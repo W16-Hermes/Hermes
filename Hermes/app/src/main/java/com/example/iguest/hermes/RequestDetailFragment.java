@@ -98,36 +98,15 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String display = options.getString("displayName", "");
                     final String id = options.getString("userId", "");
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-                    query.whereEqualTo("screenName", display);
-                    query.findInBackground(new FindCallback<ParseObject>() {
+                    ParseQuery query = new ParseQuery("Request");
+                    query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
                         @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (e == null) {
-                                ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-                                query.whereEqualTo("screenName", display);
-                                try {
-                                    if (query.count() == 0) {
-                                        ParseObject newEntry = new ParseObject("User");
-                                        newEntry.put("screenName", display);
-                                        newEntry.put("score", 0);
-                                        newEntry.saveInBackground();
-                                    }
-                                } catch (ParseException e1) {
-                                    e1.printStackTrace();
-                                }
+                        public void done(ParseObject object, ParseException e) {
+                            if (object != null) {
+                                object.put("delivererId", ParseObject.createWithoutData("User", id));
+                                object.put("status", "Request Accepted");
+                                object.saveInBackground();
                             }
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
-                            Log.v("A", bundle.getString("id"));
-                            query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
-                                public void done(ParseObject request, ParseException e) {
-                                    if (e == null) {
-                                        request.put("delivererId", id);
-                                        request.put("status", "On the Way");
-                                        request.saveInBackground();
-                                    }
-                                }
-                            });
                         }
                     });
                     Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();

@@ -25,8 +25,7 @@ import com.parse.ParseQuery;
 public class MainActivity extends AppCompatActivity implements
         AddRequestFragment.DialogListener,
         RequestFeedFragment.RequestListener,
-        MyRequestsFragment.MyRequestListener,
-        UserPopup.PopupListener
+        MyRequestsFragment.MyRequestListener
 {
 
     private static final String TAG = "MAIN_ACTIVITY";
@@ -78,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        options = PreferenceManager.getDefaultSharedPreferences(this);
-        String screenName = options.getString("displayName", "");
-        if (screenName.length() == 0) {
-            //new UserPopup().show(this.getFragmentManager(), "dialog");
-        }
         Parse.initialize(this);
     }
 
@@ -193,15 +187,5 @@ public class MainActivity extends AppCompatActivity implements
                 .commit();
 
         ConfigureToolbar();
-    }
-
-    @Override
-    public void onDialogPositive(DialogFragment dialog) {
-
-    }
-
-    @Override
-    public void onDialogNegative(DialogFragment dialog) {
-        dialog.dismiss();
     }
 }

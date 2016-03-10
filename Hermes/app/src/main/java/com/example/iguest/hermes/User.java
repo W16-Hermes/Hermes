@@ -39,6 +39,6 @@ public class User {
     }
 
     public String toString() {
-        return screenName + "'s number is " + phoneNumber + " " + score;
+        return screenName + "'s  score is " +  score;
     }
 }
