@@ -73,6 +73,7 @@ public class DeliveryFragment extends Fragment {
         query.whereNotEqualTo("status", "Delivered");
         //query.whereEqualTo("delivererId", id);
         query.include("userId");
+        query.include("restaurantId");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

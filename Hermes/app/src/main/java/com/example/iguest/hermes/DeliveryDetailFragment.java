@@ -1,18 +1,23 @@
 package com.example.iguest.hermes;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 
 /**
@@ -42,6 +47,7 @@ public class DeliveryDetailFragment extends Fragment {
             TextView userTextView = (TextView) rootView.findViewById(R.id.DeliverDetailUser);
             userTextView.setText(bundle.getString("user"));
             Button pickedUp = (Button) rootView.findViewById(R.id.picked);
+
             pickedUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -50,30 +56,49 @@ public class DeliveryDetailFragment extends Fragment {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
+                                Log.v("a", "here");
                                 object.put("status", "Picked Up");
                                 object.saveInBackground();
                             }
                         }
                     });
-
+                    Toast.makeText(getActivity(), "Status changed to Picked Up", Toast.LENGTH_LONG).show();
                 }
             });
+
             Button delivered = (Button) rootView.findViewById(R.id.deliver);
             delivered.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ParseQuery query = new ParseQuery("Request");
+                    final ParseQuery query = new ParseQuery("Request");
                     query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
+                                Log.v("b", "here");
                                 object.put("status", "Delivered");
-                                object.saveInBackground();
+                                object.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        ParseQuery user = new ParseQuery("User");
+                                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                        final String id = options.getString("userId", " ");
+                                        try {
+                                            ParseObject editUser = query.get(id);
+                                            editUser.put("score", editUser.getInt("score") + 1);
+                                            editUser.saveInBackground();
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
+                    Toast.makeText(getActivity(), "Request Delivered", Toast.LENGTH_LONG).show();
                 }
             });
+
             Button cancel = (Button) rootView.findViewById(R.id.cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,12 +108,14 @@ public class DeliveryDetailFragment extends Fragment {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
+                                Log.v("c", "here");
                                 object.put("delivererId", null);
                                 object.put("status", "Pending");
                                 object.saveInBackground();
                             }
                         }
                     });
+                    Toast.makeText(getActivity(), "Request Canceled", Toast.LENGTH_LONG).show();
                 }
             });
         }
