@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
-
-        Parse.initialize(this);
     }
 
     @Override
