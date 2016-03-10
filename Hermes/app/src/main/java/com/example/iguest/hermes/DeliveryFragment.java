@@ -76,10 +76,6 @@ public class DeliveryFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    if (!objects.isEmpty()) {
-                        TextView label = (TextView) getActivity().findViewById(R.id.deliveryLabel);
-                        label.setVisibility(View.GONE);
-                    }
                     int count = 0;
                     for (ParseObject object : objects) {
                         String user = object.getParseObject("userId").getString("screenName");

@@ -43,6 +43,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class RequestDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
+    private static final String TAG = "REQUEST_DETAIL";
+
     MapFragment mMapView;
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
@@ -108,6 +110,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
             double latitude = bundle.getDouble("Latitude");
             double longitude = bundle.getDouble("Longitude");
             mMapView.getMapAsync(this);
+
             //mMapView.setRetainInstance(true);
             mMapView.setHasOptionsMenu(true);
 
@@ -133,30 +136,39 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.v("a", "here");
+        Log.v(TAG, "here");
         LocationRequest request = new LocationRequest();
         request.setInterval(10000);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        Log.v(TAG, "Connecting");
         if(mGoogleApiClient != null) {
+            Log.v(TAG, "Not Null");
             int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED ) {
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED ) {
+                Log.v(TAG, "Permission Granted");
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, request, this);
                 try {
                     Location loc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    Log.v(TAG, "Last location: " + loc.toString());
                     if (loc != null) {
+                        Log.v(TAG, "Add Marker");
                         MarkerOptions marker = new MarkerOptions().position(
-                                new LatLng(loc.getLatitude(), loc.getLongitude())).title(bundle.getString("restaurant"));
+                                new LatLng(loc.getLatitude(), loc.getLongitude())).title("My location");
+                        marker.icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                         googleMap.addMarker(marker);
+
                         CameraPosition cameraPosition = new CameraPosition.Builder()
                                 .target(new LatLng(loc.getLatitude(), loc.getLongitude())).zoom(16).build();
                         googleMap.animateCamera(CameraUpdateFactory
                                 .newCameraPosition(cameraPosition));
                     }
                 } catch(SecurityException e) {
-                    Log.v("A", "Security Exception");
+                    Log.v(TAG, "Security Exception");
                 }
             } else {
+                Log.v(TAG, "Permission not Granted");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOC_REQUEST_CODE);
             }
         }
