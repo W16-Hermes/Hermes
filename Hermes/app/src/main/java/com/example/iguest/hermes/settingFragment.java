@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -56,17 +57,18 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
                         prefEditor.putString("userId", object.getObjectId());
                         prefEditor.commit();
                     }
+                    try {
+                        ParseQuery query1 = ParseQuery.getQuery("User");
+                        ParseObject editSaved = query1.getFirst();
+                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor prefEditor = options.edit();
+                        prefEditor.putString("userId", editSaved.getObjectId());
+                        prefEditor.commit();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
-            try {
-                ParseObject editSaved = query.getFirst();
-                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                SharedPreferences.Editor prefEditor = options.edit();
-                prefEditor.putString("userId", editSaved.getObjectId());
-                prefEditor.commit();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             final String display = sharedPreferences.getString("userId", "");
             Log.v("Name", "The First Check is " + display);
         }
