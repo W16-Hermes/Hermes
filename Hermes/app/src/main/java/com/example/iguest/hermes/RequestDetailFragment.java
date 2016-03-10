@@ -96,6 +96,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                 public void onClick(View v) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String display = options.getString("displayName", "");
+                    final String id = options.getString("userId", "");
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
                     query.whereEqualTo("screenName", display);
                     query.findInBackground(new FindCallback<ParseObject>() {
@@ -108,7 +109,9 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                                 newEntry.saveInBackground();
                             }
                             final ParseObject update = new ParseObject("Request");
-                            //update.put()
+                            update.put("objectId", bundle.getString("id"));
+                            update.put("delivererId", id);
+                            update.saveInBackground();
                         }
                     });
                     Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();

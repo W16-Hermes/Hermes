@@ -91,7 +91,9 @@ public class RequestFeedFragment extends Fragment {
                         Request request = new Request(user, deliveryLocation, restaurant, descript);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
-                        adapter.add(request);
+                        if (status.equals("Pending")) {
+                            adapter.add(request);
+                        }
                     }
                 }
             }
