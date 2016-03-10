@@ -70,27 +70,16 @@ public class DeliveryDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     final ParseQuery query = new ParseQuery("Request");
+                    query.include("userId");
                     query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
                                 Log.v("b", "here");
                                 object.put("status", "Delivered");
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        ParseQuery user = new ParseQuery("User");
-                                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                                        final String id = options.getString("userId", " ");
-                                        try {
-                                            ParseObject editUser = query.get(id);
-                                            editUser.put("score", editUser.getInt("score") + 1);
-                                            editUser.saveInBackground();
-                                        } catch (ParseException e1) {
-                                            e1.printStackTrace();
-                                        }
-                                    }
-                                });
+                                int count = object.getParseObject("userId").getInt("score");
+                                object.getParseObject("userId").put("score", count + 1);
+                                object.saveInBackground();
                             }
                         }
                     });
@@ -108,7 +97,7 @@ public class DeliveryDetailFragment extends Fragment {
                         public void done(ParseObject object, ParseException e) {
                             if (object != null) {
                                 Log.v("c", "here");
-                                object.put("delivererId", null);
+                                object.remove("delivererId");
                                 object.put("status", "Pending");
                                 object.saveInBackground();
                             }

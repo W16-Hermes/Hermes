@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -72,6 +73,7 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
             });
             Log.v(TAG, "UserID is: " + sharedPreferences.getString("userId", "asdasd"));
             Log.v(TAG, "ScreenName is: " + sharedPreferences.getString("displayName", "asdasd"));
+            Toast.makeText(getActivity(), "Display Name Changed", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -73,6 +73,7 @@ public class DeliveryFragment extends Fragment {
         query.whereNotEqualTo("status", "Delivered");
         //query.whereEqualTo("delivererId", id);
         query.include("userId");
+        query.include("delivererId");
         query.include("restaurantId");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -80,18 +81,17 @@ public class DeliveryFragment extends Fragment {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null) {
                     for (ParseObject object : objects) {
-                        //String user = object.getParseObject("userId").getString("screenName");
-                        String deliver = object.getParseObject("deliverId").getString("screenName");
-                        String restaurant = object.getParseObject("restaurantId").getString("Name");
-                        ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
-                        String descript = object.getString("description");
-                        //Request request = new Request(user, deliveryLocation, restaurant, descript);
-                        Request request = new Request(display, deliveryLocation, restaurant, descript);
-                        request.setRequestID(object.getObjectId());
-                        request.setStatus(object.getString("status"));
-
-                        if (deliver.equals(display)) {
-                            adapter.add(request);
+                        if (object.getParseObject("delivererId") != null) {
+                            String deliver = object.getParseObject("delivererId").getString("screenName");
+                            String restaurant = object.getParseObject("restaurantId").getString("Name");
+                            ParseGeoPoint deliveryLocation = object.getParseGeoPoint("deliveryLocation");
+                            String descript = object.getString("description");
+                            Request request = new Request(display, deliveryLocation, restaurant, descript);
+                            request.setRequestID(object.getObjectId());
+                            request.setStatus(object.getString("status"));
+                            if (deliver.equals(display)) {
+                                adapter.add(request);
+                            }
                         }
                     }
                 }
