@@ -21,19 +21,19 @@
         android:layout_below="@id/textView"></Spinner>
 
     <TextView
+        android:id="@+id/ReqDescriptionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Description"
-        android:id="@+id/textView2"
         android:layout_below="@id/spinner"/>
 
 
     <EditText
+        android:id="@+id/reqDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/reqDescription"
-        android:hint="I want #9 sushi."
-        android:layout_below="@id/textView2"/>
+        android:hint="What food do you want?"
+        android:layout_below="@id/ReqDescriptionTitle"/>
 
 </RelativeLayout>
