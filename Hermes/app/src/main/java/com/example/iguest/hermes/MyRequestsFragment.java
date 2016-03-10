@@ -27,7 +27,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MyRequestsFragment extends Fragment {
-
+    private static final String TAG = "MY_REQUEST_FRAGMENT";
     private ArrayAdapter adapter;
 
     public interface MyRequestListener{
@@ -70,8 +70,8 @@ public class MyRequestsFragment extends Fragment {
         query.include("userId");
         query.include("restaurantId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final String display = options.getString("displayName", " ");
-        Log.v("a", display);
+        final String display = options.getString("displayName", "");
+        Log.v(TAG, "Display name is:" + display);
         query.whereEqualTo("screenName", display);
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
