@@ -87,7 +87,7 @@ public class Request {
     }
 
     public String toString() {
-        return this.userId + " " + this.description + " from " + this.restaurantName;
+        return this.userId + " would like food from " + this.restaurantName;
     }
 
     public void setRequestID(String ID) {

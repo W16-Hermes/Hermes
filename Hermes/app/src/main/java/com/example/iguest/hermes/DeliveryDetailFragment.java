@@ -40,12 +40,18 @@ public class DeliveryDetailFragment extends Fragment {
         if (bundle != null) {
             TextView titleTextView = (TextView) rootView.findViewById(R.id.DeliverDetailTitle);
             titleTextView.setText(bundle.getString("title"));
+
             TextView statusTextView = (TextView) rootView.findViewById(R.id.DeliverDetailStatus);
             statusTextView.setText(bundle.getString("status"));
+
             TextView restaurantTextView = (TextView) rootView.findViewById(R.id.DeliverDetailRestaurant);
             restaurantTextView.setText(bundle.getString("restaurant"));
+
             TextView userTextView = (TextView) rootView.findViewById(R.id.DeliverDetailUser);
             userTextView.setText(bundle.getString("user"));
+
+            TextView descriptionTextView = (TextView) rootView.findViewById(R.id.DeliverDetailDescription);
+            descriptionTextView.setText(bundle.getString("description"));
 
             Button pickedUp = (Button) rootView.findViewById(R.id.picked);
             pickedUp.setOnClickListener(new View.OnClickListener() {

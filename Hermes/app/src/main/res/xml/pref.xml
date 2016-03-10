@@ -19,5 +19,6 @@
         android:title="User Id"
         android:key="userId"
         android:visibility="gone"
-        android:defaultValue="f1EUxtZQuZ"/>
+        android:defaultValue="f1EUxtZQuZ"
+        />
 </PreferenceScreen>

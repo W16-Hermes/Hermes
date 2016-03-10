@@ -169,8 +169,8 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
     private void SetTextFields(Bundle bundle) {
         titleTextView.setText(bundle.getString("title"));
         userTextView.setText(bundle.getString("user"));
-        restaurantTextView.setText("Restaurant: " + bundle.getString("restaurant"));
-        descriptionTextView.setText("Description: " + bundle.getString("description"));
+        restaurantTextView.setText(bundle.getString("restaurant"));
+        descriptionTextView.setText(bundle.getString("description"));
     }
 
     @Override

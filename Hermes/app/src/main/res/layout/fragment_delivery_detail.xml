@@ -118,16 +118,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Picked Up"
+        android:layout_marginLeft="15dp"
         android:layout_below="@+id/UpdateStatusLabel"
-        android:layout_alignStart="@+id/deliver" />
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delivered"
         android:id="@+id/deliver"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/picked"
+        android:layout_alignTop="@+id/picked"
+        android:layout_toRightOf="@+id/picked"
         android:layout_centerHorizontal="true"
         />
 
@@ -136,8 +137,9 @@
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/cancel"
-        android:layout_below="@+id/deliver"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginRight="15dp"
+        android:layout_alignTop="@+id/deliver"
+        android:layout_toRightOf="@+id/deliver"
+        />
 
 </RelativeLayout>
