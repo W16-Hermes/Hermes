@@ -146,7 +146,9 @@ public class AddRequestFragment extends DialogFragment implements AdapterView.On
                 public void onClick(DialogInterface dialog, int id) {
                     SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String userName = options.getString("displayName", " ");
-                    final String userID = options.getString("userId", " ");
+                    parseDisplayName convert = new parseDisplayName();
+                    final String userID = convert.convertToId(userName);
+                    //final String userID = options.getString("userId", " ");
 
                     /*
                     ParseQuery query = new ParseQuery("User");

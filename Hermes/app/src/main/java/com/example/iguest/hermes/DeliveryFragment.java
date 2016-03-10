@@ -68,7 +68,9 @@ public class DeliveryFragment extends Fragment {
         query.include("userId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", " ");
-        final String id = options.getString("userId", "");
+        parseDisplayName convert = new parseDisplayName();
+        final String id = convert.convertToId(display);
+        //final String id = options.getString("userId", "");
         query.whereNotEqualTo("status", "Delivered");
         query.whereEqualTo("delivererId", id);
         query.orderByDescending("createdAt").setLimit(200);

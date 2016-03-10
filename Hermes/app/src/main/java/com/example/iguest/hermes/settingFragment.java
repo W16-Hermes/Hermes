@@ -51,28 +51,12 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
                         }
                         user.put("phoneNumber", phone);
                         user.saveInBackground();
-                    } else {
-                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor prefEditor = options.edit();
-                        prefEditor.putString("userId", object.getObjectId());
-                        prefEditor.commit();
-                    }
-                    try {
-                        ParseQuery query1 = ParseQuery.getQuery("User");
-                        ParseObject editSaved = query1.getFirst();
-                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor prefEditor = options.edit();
-                        prefEditor.putString("userId", editSaved.getObjectId());
-                        prefEditor.commit();
-                    } catch (ParseException c) {
-                        c.printStackTrace();
                     }
                 }
             });
-            final String display = sharedPreferences.getString("userId", "");
-            Log.v("Name", "The First Check is " + display);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
