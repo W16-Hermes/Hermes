@@ -102,8 +102,6 @@ public class MyRequestDetailFragment extends Fragment implements GoogleApiClient
                     .target(new LatLng(latitude, longitude)).zoom(16).build();
             googleMap.animateCamera(CameraUpdateFactory
                     .newCameraPosition(cameraPosition));
-
-
         }
         return rootView;
     }

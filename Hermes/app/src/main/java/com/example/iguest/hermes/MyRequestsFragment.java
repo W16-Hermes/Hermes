@@ -69,13 +69,13 @@ public class MyRequestsFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
         query.include("userId");
         query.include("restaurantId");
-        query.include("delivererId");
         SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String display = options.getString("displayName", " ");
         final String id = options.getString("userId", " ");
         Log.v(TAG, "Display name is:" + display);
         Log.v(TAG, "User ID is:" + id);
         query.include("userId");
+        query.include("delivererId");
         query.orderByDescending("createdAt").setLimit(200);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -85,7 +85,7 @@ public class MyRequestsFragment extends Fragment {
                     for (ParseObject object : objects) {
                         String delivererName = "No one yet";
                         if (object.getParseObject("delivererId") != null) {
-                            delivererName = object.getString("delivererId");
+                            delivererName = object.getParseObject("delivererId").getString("screenName");
                         }
                         Log.v(TAG, "Deliverer is: " + delivererName);
                         Log.v(TAG, "In query loop");
@@ -97,7 +97,6 @@ public class MyRequestsFragment extends Fragment {
                         Request request = new Request(display, deliveryLocation, restaurant, descript, delivererName);
                         request.setRequestID(object.getObjectId());
                         request.setStatus(object.getString("status"));
-                        request.setDeliverName(delivererName);
                         if(user.equals(display)) {
                             adapter.add(request);
                         }
