@@ -31,33 +31,39 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, String key) {
         // handle the preference change here
-        Log.v("Setting", "In shared preference change");
         if (key.equals("displayName")) {
-            Log.v("Setting", "In display name change");
-
             final String name = sharedPreferences.getString("displayName", "");
             ParseQuery query = ParseQuery.getQuery("User");
             query.whereEqualTo("screenName", name);
-            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (object == null) {
-                        Log.v("Setting", "User not found");
-
-                        final ParseObject user = new ParseObject("User");
-                        user.put("screenName", name);
-                        user.put("score", 0);
-                        String phone = " ";
-                        for (int i = 0; i < 10; i++) {
-                            phone = phone + random.nextInt(9);
-                        }
-                        user.put("phoneNumber", phone);
-                        user.saveInBackground();
-                    }
+            try {
+                ParseObject object = query.getFirst();
+                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor prefEditor = options.edit();
+                prefEditor.putString("userId", object.getObjectId());
+                prefEditor.commit();
+            } catch (ParseException e) {
+                final ParseObject user = new ParseObject("User");
+                user.put("screenName", name);
+                user.put("score", 0);
+                String phone = " ";
+                for (int i = 0; i < 10; i++) {
+                    phone = phone + random.nextInt(9);
                 }
-            });
+                user.put("phoneNumber", phone);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor prefEditor = options.edit();
+                        prefEditor.putString("userId", user.getObjectId());
+                        prefEditor.commit();
+                    }
+                });
+            }
+            final String display = sharedPreferences.getString("userId", "");
+            Log.v("Name", display);
         }
     }
 
@@ -65,6 +71,7 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
     public void onResume() {
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
     }
 
     @Override
