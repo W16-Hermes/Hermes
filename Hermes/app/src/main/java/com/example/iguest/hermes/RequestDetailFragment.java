@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -103,15 +104,30 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                         @Override
                         public void done(List<ParseObject> objects, ParseException e) {
                             if (e == null) {
-                                ParseObject newEntry = new ParseObject("User");
-                                newEntry.put("screenName", display);
-                                newEntry.put("score", 0);
-                                newEntry.saveInBackground();
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+                                query.whereEqualTo("screenName", display);
+                                try {
+                                    if (query.count() == 0) {
+                                        ParseObject newEntry = new ParseObject("User");
+                                        newEntry.put("screenName", display);
+                                        newEntry.put("score", 0);
+                                        newEntry.saveInBackground();
+                                    }
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
+                                }
                             }
-                            final ParseObject update = new ParseObject("Request");
-                            update.put("objectId", bundle.getString("id"));
-                            update.put("delivererId", id);
-                            update.saveInBackground();
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+                            Log.v("A", bundle.getString("id"));
+                            query.getInBackground(bundle.getString("id"), new GetCallback<ParseObject>() {
+                                public void done(ParseObject request, ParseException e) {
+                                    if (e == null) {
+                                        request.put("delivererId", id);
+                                        request.put("status", "On the Way");
+                                        request.saveInBackground();
+                                    }
+                                }
+                            });
                         }
                     });
                     Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
