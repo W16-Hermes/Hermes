@@ -35,33 +35,41 @@ public class settingFragment extends PreferenceFragment implements SharedPrefere
         // handle the preference change here
         if (key.equals("displayName")) {
             final String name = sharedPreferences.getString("displayName", "");
-            ParseQuery query = ParseQuery.getQuery("User");
-            query.whereEqualTo("screenName", name);
-            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (object == null) {
-                        final ParseObject user = new ParseObject("User");
-                        user.put("screenName", name);
-                        user.put("score", 0);
-                        String phone = " ";
-                        for (int i = 0; i < 10; i++) {
-                            phone = phone + random.nextInt(9);
-                        }
-                        user.put("phoneNumber", phone);
-                        user.saveInBackground();
-                        Log.v("tag", user.getObjectId());
-                    } else {
-                        SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                        SharedPreferences.Editor prefEditor = options.edit();
-                        prefEditor.putString("userId", object.getObjectId());
-                        prefEditor.commit();
-                    }
-                }
-            });
-            final String display = sharedPreferences.getString("userId", "");
-            Log.v("Name", display);
+                    ParseQuery query = ParseQuery.getQuery("User");
+        query.whereEqualTo("screenName", name);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            if (object == null) {
+                                final ParseObject user = new ParseObject("User");
+                                user.put("screenName", name);
+                                user.put("score", 0);
+                                String phone = " ";
+                                for (int i = 0; i < 10; i++) {
+                                    phone = phone + random.nextInt(9);
+                                }
+                                user.put("phoneNumber", phone);
+                                user.saveInBackground();
+                            }
+            }
+        });
+        final String display = sharedPreferences.getString("userId", "");
+        Log.v("Name", "The First Check is " + display);
+            final String name1 = sharedPreferences.getString("displayName", "");
+                    ParseQuery query1 = ParseQuery.getQuery("User");
+                    query1.whereEqualTo("screenName", name1);
+            try {
+                ParseObject foundUser = query1.getFirst();
+                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor prefEditor = options.edit();
+                prefEditor.putString("userId", foundUser.getObjectId());
+                prefEditor.commit();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+        final String display2 = sharedPreferences.getString("userId", "");
+        Log.v("Name", "The Second Check is " + display2);
     }
 
     @Override
