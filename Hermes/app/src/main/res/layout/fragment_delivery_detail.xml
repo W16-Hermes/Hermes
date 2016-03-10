@@ -1,13 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.iguest.hermes.DeliveryDetailFragment">
+    tools:context="com.example.iguest.hermes.MyRequestDetailFragment"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/DeliverDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/DeliverDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/MyRequestDetailTitle"
+        android:text="Status"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailRestaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@id/MyRequestDetailStatus"
+        />
+
+    <TextView
+        android:id="@+id/DeliverDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:layout_below="@+id/MyRequestDetailRestaurant"
+        android:text="Description"
+        />
+
+</RelativeLayout>
