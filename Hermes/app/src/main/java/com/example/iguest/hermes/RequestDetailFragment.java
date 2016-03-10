@@ -49,6 +49,9 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
     private static final int LOC_REQUEST_CODE = 1;
+    private double rLatitude;
+    private double rLongitude;
+    private String rName;
 
     public RequestDetailFragment() {
         // Required empty public constructor
@@ -65,6 +68,25 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences options = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                final String display = options.getString("displayName", "");
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+                query.whereEqualTo("screenName", display);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            ParseObject newEntry = new ParseObject("User");
+                            newEntry.put("screenName", display);
+                            newEntry.put("score", 0);
+                            newEntry.saveInBackground();
+                        }
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+                        query.include("userId");
+                        query.include("restaurantId");
+
+                    }
+                });
                 Toast.makeText(getActivity(), "Request Accepted", Toast.LENGTH_LONG).show();
             }
         });
@@ -107,8 +129,10 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
             googleMap = mMapView.getMap();
             // latitude and longitude
-            double latitude = bundle.getDouble("Latitude");
-            double longitude = bundle.getDouble("Longitude");
+            rLatitude = bundle.getDouble("Latitude");
+            rLongitude = bundle.getDouble("Longitude");
+            rName = bundle.getString("restaurant");
+
             mMapView.getMapAsync(this);
 
             //mMapView.setRetainInstance(true);
@@ -116,7 +140,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
             // create marker
             MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(latitude, longitude)).title(bundle.getString("restaurant"));
+                    new LatLng(rLatitude, rLongitude)).title(rName);
 
             // Changing marker icon
             marker.icon(BitmapDescriptorFactory
@@ -125,12 +149,11 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
             // adding marker
             googleMap.addMarker(marker);
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(latitude, longitude)).zoom(16).build();
+                    .target(new LatLng(rLatitude, rLongitude)).zoom(16).build();
             googleMap.animateCamera(CameraUpdateFactory
                     .newCameraPosition(cameraPosition));
 
         }
-
         return rootView;
     }
 
@@ -150,9 +173,7 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, request, this);
                 try {
                     Location loc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                    Log.v(TAG, "Last location: " + loc.toString());
                     if (loc != null) {
-                        Log.v(TAG, "Add Marker");
                         MarkerOptions marker = new MarkerOptions().position(
                                 new LatLng(loc.getLatitude(), loc.getLongitude())).title("My location");
                         marker.icon(BitmapDescriptorFactory
@@ -186,6 +207,12 @@ public class RequestDetailFragment extends Fragment implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
+        googleMap.clear();
+        MarkerOptions restaurant = new MarkerOptions().position(
+                new LatLng(rLatitude, rLatitude)).title(rName);
+        restaurant.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        googleMap.addMarker(restaurant);
         Log.v("GPS Tester", "Location Changed");
         MarkerOptions marker = new MarkerOptions().position(
                 new LatLng(location.getLatitude(), location.getLongitude())).title("Current");
